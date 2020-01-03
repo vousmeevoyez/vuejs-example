@@ -23,7 +23,7 @@
     </el-row>
     <el-row>
       <img
-        src="@/assets/images/profile.jpeg"
+        src="https://i.ebayimg.com/images/g/7sUAAOSw7j5bJzDy/s-l400.jpg"
         class="profile-img"
         v-if="isCollapse === false"
       />

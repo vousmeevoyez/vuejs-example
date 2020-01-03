@@ -5,6 +5,11 @@
         <i class="el-icon-menu"></i>
       </el-button>
       <div class="user-info">
+        <p style="font-weight:light;">
+          {{ $route.meta.title }}
+        </p>
+      </div>
+      <div class="user-info">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             Steve Roger
@@ -18,7 +23,7 @@
         </el-dropdown>
         <img
           id="profile-pic-thumb"
-          src="@/assets/images/profile.jpeg"
+          src="https://i.ebayimg.com/images/g/7sUAAOSw7j5bJzDy/s-l400.jpg"
           height="40"
         />
       </div>
