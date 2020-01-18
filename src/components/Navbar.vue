@@ -29,7 +29,7 @@
       />
     </el-row>
     <el-row>
-      <el-col v-if="isCollapse === false">
+      <!--<el-col v-if="isCollapse === false">
         <i class="el-icon-star-on"></i>
         <span class="dream-info"> Chief Technology Officer </span>
         <el-tooltip
@@ -45,6 +45,9 @@
           :color="dream_progress_percent"
           class="dream-progress"
         ></el-progress>
+			</el-col>-->
+      <el-col v-if="isCollapse === false">
+        <p>Steve Roger</p>
       </el-col>
     </el-row>
     <template v-for="(rule, index) in $router.options.routes">
@@ -68,30 +71,10 @@
         :index="rule.path"
         :key="index"
       >
-        <i :class="rule.icon"></i>
+        <!--<i :class="rule.icon"></i>-->
         <span> {{ rule.name }}</span>
       </el-menu-item>
     </template>
-    <!--<el-menu-item index="2">
-      <i class="el-icon-platform-eleme"></i>
-      <span>DreamDiagnostic</span>
-    </el-menu-item>
-    <el-menu-item index="3">
-      <i class="el-icon-discover"></i>
-      <span>DreamGPSDesign</span>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <i class="el-icon-location"></i>
-      <span>DreamGPSImplementation</span>
-    </el-menu-item>
-    <el-menu-item index="5">
-      <i class="el-icon-s-opportunity"></i>
-      <span>Power Mentorship</span>
-    </el-menu-item>
-    <el-menu-item index="6">
-      <i class="el-icon-s-custom"></i>
-      <span>DreamConnect</span>
-		</el-menu-item>-->
   </el-menu>
 </template>
 <script>

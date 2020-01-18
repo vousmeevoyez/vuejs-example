@@ -20,28 +20,28 @@ const routes = [
   },
   {
     path: "/diagnostic",
-    name: "Diagnostic",
+    name: "DreamDiagnostic",
     icon: "el-icon-s-order",
     meta: { layout: "base", visible: true, title: "DreamGPS Diagnostic" },
     component: () => import("@/views/diagnostic/Diagnostic.vue")
   },
   {
     path: "/design",
-    name: "Design",
+    name: "DreamGPS Design",
     icon: "el-icon-edit-outline",
     meta: { layout: "base", visible: true, title: "DreamGPS Design" },
     component: () => import("@/views/design/Design.vue")
   },
   {
     path: "/implementation",
-    name: "Implementation",
+    name: "DreamGPSImplementation",
     icon: "el-icon-discover",
     meta: { layout: "base", visible: true, title: "DreamGPS Implementation" },
     component: () => import("@/views/implementation/Implementation.vue")
   },
   {
     path: "/mentorship",
-    name: "Mentorship",
+    name: "Power Mentorship",
     icon: "el-icon-user",
     meta: { layout: "base", visible: true, title: "Power Mentorship" },
     component: () => import("@/views/mentorship/Mentorship.vue")

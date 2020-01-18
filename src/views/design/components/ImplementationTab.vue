@@ -1,38 +1,33 @@
 <template>
   <el-container>
-    <el-col :span="11">
+    <el-col>
       <el-row>
-        <el-col :span="12" :offset="6">
-          <h1>Your Schedules</h1>
-        </el-col>
-        <el-col :span="6">
-          <el-button type="primary">Add Schedule</el-button>
-        </el-col>
+        <vc-calendar
+          :attributes="calendars"
+          :columns="layout.columns"
+          :rows="layout.rows"
+          :is-expanded="layout.isExpanded"
+        />
       </el-row>
       <el-row>
-        <el-table :data="schedules" style="width: 100%" stripe>
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              <div v-for="(task, index) in props.row.tasks" :key="index">
-                <el-row>
-                  <p>{{ task.description }}</p>
-                  <p>Start: {{ task.start }}</p>
-                  <p>End: {{ task.end }}</p>
-                </el-row>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column label="Goal" prop="goal"> </el-table-column>
-        </el-table>
+        <h1>Your Schedule</h1>
+        <el-col>
+          <el-table :data="schedules" style="width: 100%" stripe>
+            <el-table-column type="expand">
+              <template slot-scope="props">
+                <div v-for="(task, index) in props.row.tasks" :key="index">
+                  <el-row>
+                    <p>{{ task.description }}</p>
+                    <p>Start: {{ task.start }}</p>
+                    <p>End: {{ task.end }}</p>
+                  </el-row>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="Goal" prop="goal"> </el-table-column>
+          </el-table>
+        </el-col>
       </el-row>
-    </el-col>
-    <el-col :span="11" :offset="1">
-      <vc-calendar
-        :attributes="calendars"
-        :columns="layout.columns"
-        :rows="layout.rows"
-        :is-expanded="layout.isExpanded"
-      />
     </el-col>
   </el-container>
 </template>
@@ -54,9 +49,9 @@ export default {
         },
         // Override for large screens
         lg: {
-          columns: 2,
+          columns: 6,
           rows: 2,
-          isExpanded: false
+          isExpanded: true
         }
       });
     }

@@ -10,7 +10,8 @@
         >See All</el-button
       >
     </div>
-    <el-row>
+    <!-- VERTICAL LAYOUT -->
+    <el-row v-if="direction === 'VERTICAL'">
       <el-row
         v-for="(item, index) in data"
         :key="index"
@@ -24,12 +25,22 @@
         </el-col>
       </el-row>
     </el-row>
+    <!-- HORIZONTAL LAYOUT -->
+    <el-row v-else>
+      <el-col :span="4" v-for="(item, index) in data" :key="index">
+        <el-row>
+          <img :src="item.image" class="thumbnail" />
+          <p>{{ item.name }}</p>
+        </el-row>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 <script>
 export default {
   name: "Card",
   props: {
+    direction: String,
     title: String,
     data: Array
   },
@@ -37,16 +48,8 @@ export default {
 };
 </script>
 <style lang="scss">
-.section {
-  &__img {
-    height: 80px;
-    border-radius: 50%;
-    float: left;
-  }
-  &__name {
-    display: inline;
-    margin-left: 15px;
-    float: left;
-  }
+.thumbnail {
+  height: 80px;
+  border-radius: 50%;
 }
 </style>

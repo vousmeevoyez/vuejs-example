@@ -4,11 +4,11 @@
       <el-button class="collapse-toggle" @click="menuToggle()">
         <i class="el-icon-menu"></i>
       </el-button>
-      <div class="user-info">
+      <!--<div class="user-info">
         <p style="font-weight:light;">
           {{ $route.meta.title }}
         </p>
-      </div>
+			</div>-->
       <div class="user-info">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
@@ -21,11 +21,6 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <img
-          id="profile-pic-thumb"
-          src="https://i.ebayimg.com/images/g/7sUAAOSw7j5bJzDy/s-l400.jpg"
-          height="40"
-        />
       </div>
     </div>
   </el-header>

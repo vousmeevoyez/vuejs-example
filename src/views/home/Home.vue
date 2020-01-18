@@ -1,27 +1,36 @@
 <template>
   <el-container>
     <el-col>
-      <el-col :span="12" style="padding-right:10px">
-        <Backlog :backlogs="backlogs" />
-      </el-col>
-      <el-col :span="6" style="padding-right: 10px">
-        <Card :title="mentor_title" :data="mentors" />
-      </el-col>
-      <el-col :span="6" style="padding-right: 10px">
-        <Card :title="mentees_title" :data="mentees" />
-      </el-col>
+      <el-row style="padding-bottom: 10px;">
+        <el-col :span="12" style="padding-right: 10px;">
+          <Goal :data="backlogs" />
+        </el-col>
+        <el-col :span="12" style="padding-right: 10px;">
+          <Backlog :backlogs="backlogs" />
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12" style="padding-right: 10px;">
+          <Card :title="mentor_title" :data="mentors" :direction="HORIZONTAL" />
+        </el-col>
+        <el-col :span="12" style="padding-right: 10px;">
+          <Card :title="mentees_title" :data="mentees" />
+        </el-col>
+      </el-row>
     </el-col>
   </el-container>
 </template>
 <script>
 import Backlog from "./components/Backlog.vue";
+import Goal from "./components/Goal.vue";
 import Card from "@/components/Card.vue";
 
 export default {
   name: "Home",
   components: {
     Backlog,
-    Card
+    Card,
+    Goal
   },
   data() {
     return {
@@ -29,22 +38,20 @@ export default {
       mentees_title: "Mentees",
       backlogs: [
         {
-          description: "Lorem Ipsum is simply dummy text of the printing ",
-          tag: "2019-12-30",
+          description:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting ",
           priority: "URGENT",
           status: "COMPLETED"
         },
         {
           description:
             "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          tag: "2019-12-30",
           priority: "NORMAL",
           status: "PENDING"
         },
         {
           description:
             "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          tag: "2019-12-30",
           priority: "NORMAL",
           status: "IN_PROGRESS"
         }

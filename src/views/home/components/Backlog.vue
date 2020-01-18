@@ -11,13 +11,9 @@
       >
     </div>
     <el-row>
-      <CardItem
-        v-for="(backlog, index) in backlogs"
-        :key="index"
-        :card_key="card_key"
-        :data="backlog"
-        :colors="colors"
-      />
+      <el-col :span="6" v-for="(backlog, index) in backlogs" :key="index">
+        <CardItem :card_key="card_key" :data="backlog" :colors="colors" />
+      </el-col>
     </el-row>
   </el-card>
 </template>
