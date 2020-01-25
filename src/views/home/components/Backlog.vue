@@ -5,7 +5,7 @@
       style="display:flex; justify-content: space-between;
  "
     >
-      <h1>Backlog</h1>
+      <h1>{{ $t("home.backlog") }}</h1>
       <el-button style="float: right; padding-top: 3px;" type="text"
         >See All</el-button
       >
@@ -18,13 +18,8 @@
   </el-card>
 </template>
 <script>
-import CardItem from "@/components/CardItem.vue";
-
 export default {
   name: "Backlog",
-  components: {
-    CardItem
-  },
   props: {
     backlogs: Array
   },

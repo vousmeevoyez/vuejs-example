@@ -3,13 +3,28 @@
     <el-col>
       <el-card>
         <el-row>
-          <h1>Your Recommendation</h1>
-          <p>
-            Please follow our instruction below to get your dream diagnostic
-            result
-          </p>
+          <vue-friendly-iframe
+            :src="url"
+            className="iframe"
+            @load="onLoad"
+          ></vue-friendly-iframe>
         </el-row>
       </el-card>
     </el-col>
   </el-container>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      url: "https://spark.adobe.com/page/stDgUOfa3NpeC/"
+    };
+  }
+};
+</script>
+<style lang="scss">
+.iframe {
+  width: 100%;
+  min-height: 700px;
+}
+</style>

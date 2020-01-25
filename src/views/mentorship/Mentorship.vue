@@ -20,13 +20,11 @@
 <script>
 import DiscoverTab from "./components/DiscoverTab.vue";
 import AppointmentTab from "./components/AppointmentTab.vue";
-import Card from "@/components/Card.vue";
 
 export default {
   name: "DreamImplementation",
   components: {
     AppointmentTab,
-    Card,
     DiscoverTab
   },
   data() {

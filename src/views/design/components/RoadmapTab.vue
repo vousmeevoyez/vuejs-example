@@ -1,18 +1,15 @@
 <template>
   <el-container>
     <el-col>
-      <el-row>
-        <vc-calendar
-          :attributes="calendars"
-          :columns="layout.columns"
-          :rows="layout.rows"
-          :is-expanded="layout.isExpanded"
-        />
-      </el-row>
-      <el-row>
+      <el-row style="padding-bottom:15px;">
         <h1>Your Schedule</h1>
         <el-col>
-          <el-table :data="schedules" style="width: 100%" stripe>
+          <el-table
+            :data="schedules"
+            style="width: 100%"
+            stripe
+            default-expand-all
+          >
             <el-table-column type="expand">
               <template slot-scope="props">
                 <div v-for="(task, index) in props.row.tasks" :key="index">
@@ -28,12 +25,22 @@
           </el-table>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col>
+          <vc-calendar
+            :attributes="calendars"
+            :columns="layout.columns"
+            :rows="layout.rows"
+            :is-expanded="layout.isExpanded"
+          />
+        </el-col>
+      </el-row>
     </el-col>
   </el-container>
 </template>
 <script>
 export default {
-  name: "ImplementationTab",
+  name: "RoadmapTab",
   props: {
     schedules: Array,
     calendars: Array
@@ -43,13 +50,19 @@ export default {
       return this.$screens({
         // Default layout for mobile
         default: {
-          columns: 1,
-          rows: 1,
+          columns: 3,
+          rows: 2,
           isExpanded: true
         },
-        // Override for large screens
+        // min-width 1024px
         lg: {
-          columns: 6,
+          columns: 3,
+          rows: 2,
+          isExpanded: true
+        },
+        // min-width 1280px
+        xl: {
+          columns: 3,
           rows: 2,
           isExpanded: true
         }

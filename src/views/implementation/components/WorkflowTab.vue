@@ -79,7 +79,6 @@
 <script>
 import draggable from "vuedraggable";
 import CardItem from "@/components/CardItem.vue";
-
 export default {
   name: "WorkflowTab",
   components: {

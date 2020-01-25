@@ -28,7 +28,7 @@
 </template>
 <script>
 export default {
-  name: "AllocationTab",
+  name: "RoadmapTab",
   props: {
     target: Object,
     actual: Object

@@ -11,10 +11,10 @@
       </el-row>
       <el-row>
         <el-col :span="12" style="padding-right: 10px;">
-          <Card :title="mentor_title" :data="mentors" :direction="HORIZONTAL" />
+          <Card :title="mentor_title" :data="mentors" :direction="direction" />
         </el-col>
         <el-col :span="12" style="padding-right: 10px;">
-          <Card :title="mentees_title" :data="mentees" />
+          <Card :title="mentees_title" :data="mentees" :direction="direction" />
         </el-col>
       </el-row>
     </el-col>
@@ -23,17 +23,16 @@
 <script>
 import Backlog from "./components/Backlog.vue";
 import Goal from "./components/Goal.vue";
-import Card from "@/components/Card.vue";
 
 export default {
   name: "Home",
   components: {
     Backlog,
-    Card,
     Goal
   },
   data() {
     return {
+      direction: "HORIZONTAL",
       mentor_title: "Mentor",
       mentees_title: "Mentees",
       backlogs: [

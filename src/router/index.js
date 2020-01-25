@@ -34,7 +34,7 @@ const routes = [
   },
   {
     path: "/implementation",
-    name: "DreamGPSImplementation",
+    name: "DreamGPS Implementation",
     icon: "el-icon-discover",
     meta: { layout: "base", visible: true, title: "DreamGPS Implementation" },
     component: () => import("@/views/implementation/Implementation.vue")

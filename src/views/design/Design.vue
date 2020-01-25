@@ -4,23 +4,23 @@
       <el-tabs type="card">
         <el-tab-pane label="Design">
           <el-col>
-            <h1>Your GPS Design</h1>
+            <p>{{ $t("design.instruction") }}</p>
           </el-col>
         </el-tab-pane>
-        <el-tab-pane label="Implementation">
-          <ImplementationTab :schedules="schedules" :calendars="calendars" />
+        <el-tab-pane label="Roadmap">
+          <RoadmapTab :schedules="schedules" :calendars="calendars" />
         </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-container>
 </template>
 <script>
-import ImplementationTab from "./components/ImplementationTab.vue";
+import RoadmapTab from "./components/RoadmapTab.vue";
 
 export default {
   name: "DreamDesign",
   components: {
-    ImplementationTab
+    RoadmapTab
   },
   data() {
     return {
