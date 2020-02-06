@@ -9,6 +9,7 @@ import "@/assets/css/element-variables.scss";
 import VCalendar from "v-calendar";
 import VueApexCharts from "vue-apexcharts";
 import VueFriendlyIframe from "vue-friendly-iframe";
+import VueCookies from "vue-cookies";
 
 // lodash
 import upperFirst from "lodash/upperFirst";
@@ -24,6 +25,8 @@ Vue.use(VueFriendlyIframe);
 Vue.use(VCalendar, {
   componentPrefix: "vc"
 });
+Vue.use(VueCookies);
+Vue.$cookies.config("1d");
 
 Vue.component("apexchart", VueApexCharts);
 Vue.component("base-layout", Base);

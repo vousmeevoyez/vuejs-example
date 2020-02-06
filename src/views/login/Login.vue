@@ -2,25 +2,49 @@
   <div class="center-screen">
     <el-row>
       <el-col>
+        <el-alert
+          v-if="alert.message"
+          :title="`${alert.message}`"
+          :type="`${alert.type}`"
+          @close="clearAlert"
+        >
+        </el-alert>
+      </el-col>
+      <el-col>
         <h1>DreamGravity</h1>
         <img src="@/assets/images/circle-logo.png" class="login-logo" />
       </el-col>
     </el-row>
     <el-row>
       <el-col>
-        <el-tabs v-model="activeName" @tab-click="handleClick" stretch="true">
+        <el-tabs :stretch="true">
           <el-tab-pane label="Sign In">
-            <el-form status-icon>
-              <el-form-item prop="email">
-                <el-input type="email" placeholder="Email"></el-input>
+            <el-form
+              ref="loginForm"
+              :model="loginForm"
+              :rules="loginRules"
+              auto-complete="on"
+            >
+              <el-form-item prop="username">
+                <el-input
+                  type="text"
+                  placeholder="Username"
+                  v-model="loginForm.username"
+                ></el-input>
               </el-form-item>
-              <el-form-item prop="checkPass">
-                <el-input type="password" placeholder="Password"></el-input>
+              <el-form-item prop="password">
+                <el-input
+                  type="password"
+                  placeholder="Password"
+                  v-model="loginForm.password"
+                  @keyup.enter.native="handleLogin"
+                ></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button
-                  type="success"
-                  @click="$router.push('home')"
+                  :loading="loading"
+                  type="primary"
+                  @click.native.prevent="handleLogin"
                   class="login-button"
                 >
                   Login
@@ -29,29 +53,55 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="Register">
-            <el-form status-icon>
-              <el-form-item prop="name">
-                <el-input type="text" placeholder="Full Name"></el-input>
+            <el-form
+              ref="registrationForm"
+              :model="registrationForm"
+              :rules="registrationRules"
+              auto-complete="on"
+            >
+              <el-form-item prop="fullName">
+                <el-input
+                  type="text"
+                  placeholder="Full Name"
+                  v-model="registrationForm.fullName"
+                ></el-input>
               </el-form-item>
               <el-form-item prop="email">
-                <el-input type="email" placeholder="Email"></el-input>
+                <el-input
+                  type="email"
+                  placeholder="Email"
+                  v-model="registrationForm.email"
+                ></el-input>
               </el-form-item>
-              <el-form-item prop="checkPass">
-                <el-input type="password" placeholder="Password"></el-input>
+              <el-form-item prop="username">
+                <el-input
+                  type="text"
+                  placeholder="Username"
+                  v-model="registrationForm.username"
+                ></el-input>
               </el-form-item>
-              <el-form-item prop="checkPass">
+              <el-form-item prop="password">
+                <el-input
+                  type="password"
+                  placeholder="Password"
+                  v-model="registrationForm.password"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="confirmPassword">
                 <el-input
                   type="password"
                   placeholder="Confirm Password"
+                  v-model="registrationForm.confirmPassword"
                 ></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button
-                  type="success"
-                  @click="$router.push('about')"
+                  :loading="loading"
+                  type="primary"
+                  @click.native.prevent="handleRegister"
                   class="login-button"
                 >
-                  Login
+                  Register
                 </el-button>
               </el-form-item>
             </el-form>
@@ -62,69 +112,140 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  computed: {
+    alert() {
+      return this.$store.state.alert;
+    }
+  },
   data() {
-    var checkAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("Please input the age"));
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error("Please input digits"));
-        } else {
-          if (value < 18) {
-            callback(new Error("Age must be greater than 18"));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("Please input the password"));
-      } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("Please input the password again"));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("Two inputs don't match!"));
-      } else {
-        callback();
-      }
-    };
     return {
-      ruleForm: {
-        pass: "",
-        checkPass: "",
-        age: ""
+      loginForm: {
+        username: "",
+        password: ""
       },
-      rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        age: [{ validator: checkAge, trigger: "blur" }]
-      }
+      registrationForm: {
+        fullName: "",
+        email: "",
+        username: "",
+        password: "",
+        confirmPassword: ""
+      },
+      loginRules: {
+        username: [
+          {
+            required: true,
+            message: "Username is required",
+            trigger: "change"
+          },
+          {
+            min: 5,
+            max: 62,
+            message: "Minimal 5 to 62 letter",
+            trigger: "blur"
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: "password is required",
+            trigger: "change"
+          }
+        ]
+      },
+      registrationRules: {
+        fullName: [
+          {
+            required: true,
+            message: "Full Name is required",
+            trigger: "change"
+          },
+          {
+            min: 5,
+            max: 62,
+            message: "Minimal 5 to 62 letter",
+            trigger: "blur"
+          }
+        ],
+        password: [
+          { required: true, message: "password is required", trigger: "change" }
+        ],
+        email: [
+          {
+            type: "email",
+            required: true,
+            message: "email is required",
+            trigger: "change"
+          }
+        ],
+        username: [
+          {
+            required: true,
+            message: "Username is required",
+            trigger: "change"
+          },
+          {
+            min: 5,
+            max: 62,
+            message: "Minimal 5 to 62 letter",
+            trigger: "blur"
+          }
+        ],
+        confirmPassword: [
+          {
+            required: true,
+            message: "confirm password is required",
+            trigger: "change"
+          }
+        ]
+      },
+      loading: false
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+    ...mapActions([
+      "authenticateUser",
+      "registerUser",
+      "triggerSuccess",
+      "triggerError",
+      "triggerClear"
+    ]),
+    handleLogin() {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
+          this.loading = true;
+          this.authenticateUser(this.loginForm)
+            .then(data => {
+              this.loading = false;
+              this.triggerSuccess("Successfully Authenticate...");
+            })
+            .catch(({ error }) => {
+              this.loading = false;
+              this.triggerError(error);
+            });
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    handleRegister() {
+      this.$refs.registrationForm.validate(valid => {
+        if (valid) {
+          this.loading = true;
+          this.registerUser(this.registrationForm)
+            .then(data => {
+              this.loading = false;
+              this.triggerSuccess("Successfully Register...");
+            })
+            .catch(({ error }) => {
+              this.loading = false;
+              this.triggerError(error);
+            });
+        }
+      });
+    },
+    clearAlert() {
+      this.triggerClear();
     }
   }
 };

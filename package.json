@@ -10,6 +10,7 @@
   "dependencies": {
     "@vue/eslint-config-prettier": "^6.0.0",
     "apexcharts": "^3.12.0",
+    "axios": "^0.19.2",
     "core-js": "^3.4.3",
     "element-ui": "^2.13.0",
     "eslint-plugin-prettier": "^3.1.2",
@@ -19,6 +20,7 @@
     "v-calendar": "^1.0.0-beta.23",
     "vue": "^2.6.10",
     "vue-apexcharts": "^1.5.1",
+    "vue-cookies": "^1.6.1",
     "vue-friendly-iframe": "^0.17.0",
     "vue-i18n": "^8.15.3",
     "vue-router": "^3.1.3",
