@@ -6,16 +6,20 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/",
+    redirect: "login"
+  },
+  {
     path: "/login",
     name: "Login",
-    meta: { visible: false },
+    meta: { visible: false, auth: false },
     component: Login
   },
   {
     path: "/home",
     name: "Home",
     icon: "el-icon-s-home",
-    meta: { layout: "base", visible: true, title: "DreamGPS Home" },
+    meta: { layout: "base", visible: true, title: "DreamGPS Home", auth: true },
     component: () => import("@/views/home/Home.vue")
   },
   {
@@ -54,16 +58,18 @@ const router = new VueRouter({
   routes
 });
 
-// router.beforeEach((to, from, next) => {
-//  const publicPages = ["/login"];
-//  const authRequired = !publicPages.includes(to.path);
-//  const loggedIn = localStorage.getItem("user");
-//
-//  if (authRequired && !loggedIn) {
-//    return next("/login");
-//  }
-//
-//  next();
-// });
-
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.auth)) {
+    if (!Vue.$cookies.isKey("accessToken")) {
+      next({
+        path: "/login",
+        params: { nextUrl: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 export default router;

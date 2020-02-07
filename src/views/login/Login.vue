@@ -218,8 +218,8 @@ export default {
           this.loading = true;
           this.authenticateUser(this.loginForm)
             .then(data => {
-              this.loading = false;
               this.triggerSuccess("Successfully Authenticate...");
+              this.$router.push("home");
             })
             .catch(({ error }) => {
               this.loading = false;
@@ -234,7 +234,6 @@ export default {
           this.loading = true;
           this.registerUser(this.registrationForm)
             .then(data => {
-              this.loading = false;
               this.triggerSuccess("Successfully Register...");
             })
             .catch(({ error }) => {

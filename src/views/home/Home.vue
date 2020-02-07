@@ -35,60 +35,9 @@ export default {
       direction: "HORIZONTAL",
       mentor_title: "Mentor",
       mentees_title: "Mentees",
-      backlogs: [
-        {
-          description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          priority: "URGENT",
-          status: "COMPLETED"
-        },
-        {
-          description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          priority: "NORMAL",
-          status: "PENDING"
-        },
-        {
-          description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          priority: "NORMAL",
-          status: "IN_PROGRESS"
-        }
-      ],
-      mentors: [
-        {
-          image:
-            "https://pbs.twimg.com/profile_images/1061567315978805248/IfE32ScZ_400x400.jpg",
-          name: "Kim Jisoo"
-        },
-        {
-          image:
-            "https://pbs.twimg.com/profile_images/1061567315978805248/IfE32ScZ_400x400.jpg",
-          name: "Kim Jisoo"
-        },
-        {
-          image:
-            "https://pbs.twimg.com/profile_images/1061567315978805248/IfE32ScZ_400x400.jpg",
-          name: "Kim Jisoo"
-        }
-      ],
-      mentees: [
-        {
-          image:
-            "https://pbs.twimg.com/profile_images/1061567315978805248/IfE32ScZ_400x400.jpg",
-          name: "Kim Jisoo"
-        },
-        {
-          image:
-            "https://pbs.twimg.com/profile_images/1061567315978805248/IfE32ScZ_400x400.jpg",
-          name: "Kim Jisoo"
-        },
-        {
-          image:
-            "https://pbs.twimg.com/profile_images/1061567315978805248/IfE32ScZ_400x400.jpg",
-          name: "Kim Jisoo"
-        }
-      ]
+      backlogs: [],
+      mentors: [],
+      mentees: []
     };
   },
   methods: {

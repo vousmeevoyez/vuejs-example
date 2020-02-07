@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <Navbar :isCollapse="isCollapse" />
+    <Navbar :user="user" :isCollapse="isCollapse" />
     <el-container direction="vertical">
-      <Header :menuToggle="menuToggle" />
+      <Header :user="user" :menuToggle="menuToggle" />
       <el-main>
         <transition name="fade" mode="out-in">
           <router-view />
@@ -21,6 +21,11 @@ export default {
   components: {
     Header,
     Navbar
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
   },
   data() {
     return {

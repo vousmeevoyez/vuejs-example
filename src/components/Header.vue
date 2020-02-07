@@ -12,7 +12,7 @@
       <div class="user-info">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
-            Steve Roger
+            {{ user.firstName }} {{ user.lastName }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -29,7 +29,8 @@
 export default {
   name: "Header",
   props: {
-    menuToggle: Function
+    menuToggle: Function,
+    user: Object
   }
 };
 </script>

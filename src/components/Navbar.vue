@@ -22,32 +22,13 @@
       </el-col>
     </el-row>
     <el-row>
-      <img
-        src="https://i.ebayimg.com/images/g/7sUAAOSw7j5bJzDy/s-l400.jpg"
-        class="profile-img"
-        v-if="isCollapse === false"
-      />
+      <el-col :offset="6" class="image-cropper">
+        <img :src="`${user.image}`" v-if="isCollapse === false" />
+      </el-col>
     </el-row>
     <el-row>
-      <!--<el-col v-if="isCollapse === false">
-        <i class="el-icon-star-on"></i>
-        <span class="dream-info"> Chief Technology Officer </span>
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="Hello World!"
-          placement="top-start"
-        >
-          <i class="el-icon-question"></i>
-        </el-tooltip>
-        <el-progress
-          :percentage="50"
-          :color="dream_progress_percent"
-          class="dream-progress"
-        ></el-progress>
-			</el-col>-->
       <el-col v-if="isCollapse === false">
-        <p>Steve Roger</p>
+        <p>{{ user.firstName }} {{ user.lastName }}</p>
       </el-col>
     </el-row>
     <template v-for="(rule, index) in $router.options.routes">
@@ -80,7 +61,10 @@
 <script>
 export default {
   name: "Navbar",
-  props: ["isCollapse"],
+  props: {
+    isCollapse: Boolean,
+    user: Object
+  },
   mounted() {
     this.activeLink = this.$route.path;
   },
@@ -112,7 +96,7 @@ export default {
 }
 
 .profile-img {
-  width: 100px;
+  width: 200px%;
   border-radius: 50%;
   padding: 10px 10px;
 }
@@ -145,5 +129,20 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 220px;
   min-height: 400px;
+}
+
+.image-cropper {
+  width: 125px;
+  height: 125px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+img {
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
 }
 </style>

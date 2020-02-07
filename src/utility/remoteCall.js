@@ -1,4 +1,4 @@
-// import Vue from "vue";
+import Vue from "vue";
 import axios from "axios";
 import { urls } from "../services/urls";
 
@@ -9,9 +9,10 @@ const http = axios.create({
 
 http.interceptors.request.use(
   config => {
-    // config.headers[
-    //  "Authorization"
-    // ] = `Bearer {Vue.$cookies.get("access_token")}`;
+    if (Vue.$cookies.isKey("accessToken")) {
+      const accessToken = Vue.$cookies.get("accessToken");
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
     // config.headers["Access-Control-Allow-Origin"] = "*";
     // config.headers["Access-Control-Allow-Headers"] =
     //  "Access-Control-*, Origin, X-Requested-With, Content-Type, Accept";

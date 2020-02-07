@@ -26,7 +26,7 @@ Vue.use(VCalendar, {
   componentPrefix: "vc"
 });
 Vue.use(VueCookies);
-Vue.$cookies.config("1d");
+Vue.$cookies.config("30MIN");
 
 Vue.component("apexchart", VueApexCharts);
 Vue.component("base-layout", Base);
@@ -72,5 +72,3 @@ new Vue({
   i18n,
   render: h => h(App)
 }).$mount("#app");
-
-router.replace("/login");

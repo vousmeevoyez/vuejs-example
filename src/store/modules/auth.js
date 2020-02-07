@@ -1,19 +1,21 @@
 // AUTH STATE
 //
+import Vue from "vue";
 import { fetchTokenAPI, registerUserAPI } from "../../services";
 import { parseJwt, convertFullNameToFirstLastName } from "../../utility/utils";
 
 export const state = {
-  access_token: ""
+  accessToken: ""
 };
 
 export const getters = {
-  access_token: state => state.access_token
+  accessToken: state => state.accessToken
 };
 
 export const mutations = {
   SET_ACCESS_TOKEN: (state, token) => {
-    state.access_token = token;
+    state.accessToken = token;
+    Vue.$cookies.set("accessToken", token);
   }
 };
 
@@ -22,8 +24,10 @@ export const actions = {
     return new Promise((resolve, reject) => {
       fetchTokenAPI(formData.username, formData.password)
         .then(({ data }) => {
+          const tokenPayload = parseJwt(data.access);
           commit("SET_ACCESS_TOKEN", data.access);
-          resolve(parseJwt(data.access));
+          commit("SET_USER_ID", tokenPayload.user_id);
+          resolve(tokenPayload);
         })
         .catch(({ response }) => {
           reject(response.data);
@@ -47,6 +51,13 @@ export const actions = {
         .catch(({ response }) => {
           reject(response.data);
         });
+    });
+  },
+  async logoutUser({ commit }) {
+    return new Promise((resolve, reject) => {
+      commit("SET_ACCESS_TOKEN", "");
+      Vue.$cookies.remove("accessToken");
+      resolve();
     });
   }
 };
