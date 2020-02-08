@@ -13,6 +13,8 @@
   </el-container>
 </template>
 <script>
+import Vue from "vue";
+import { mapActions } from "vuex";
 import Header from "@/components/Header.vue";
 import Navbar from "@/components/Navbar.vue";
 
@@ -22,20 +24,29 @@ export default {
     Header,
     Navbar
   },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    }
-  },
   data() {
     return {
       isCollapse: false
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
   methods: {
+    ...mapActions(["getUserInfo", "triggerError"]),
     menuToggle() {
       this.isCollapse = !this.isCollapse;
     }
+  },
+  mounted() {
+    const userId = Vue.$cookies.get("userId");
+    this.getUserInfo(userId)
+      .then(data => {})
+      .catch(({ error }) => {
+        this.triggerError(error);
+      });
   }
 };
 </script>

@@ -1,34 +1,31 @@
 <template>
   <el-container>
     <el-col>
-      <el-row style="padding-bottom: 10px;">
-        <el-col :span="12" style="padding-right: 10px;">
-          <Goal :data="backlogs" />
-        </el-col>
-        <el-col :span="12" style="padding-right: 10px;">
-          <Backlog :backlogs="backlogs" />
+      <el-row>
+        <el-col>
+          <NorthStar :northStar="northStar" />
         </el-col>
       </el-row>
-      <el-row>
-        <el-col :span="12" style="padding-right: 10px;">
-          <Card :title="mentor_title" :data="mentors" :direction="direction" />
-        </el-col>
-        <el-col :span="12" style="padding-right: 10px;">
-          <Card :title="mentees_title" :data="mentees" :direction="direction" />
-        </el-col>
+      <el-row style="margin-top: 15px;">
+        <!--<el-col>
+          <Backlog :backlogs="backlogs" />
+				</el-col>-->
       </el-row>
     </el-col>
   </el-container>
 </template>
 <script>
-import Backlog from "./components/Backlog.vue";
-import Goal from "./components/Goal.vue";
+import NorthStar from "./components/NorthStar.vue";
 
 export default {
   name: "Home",
   components: {
-    Backlog,
-    Goal
+    NorthStar
+  },
+  computed: {
+    northStar() {
+      return this.$store.state.profile.northStar;
+    }
   },
   data() {
     return {
@@ -40,11 +37,7 @@ export default {
       mentees: []
     };
   },
-  methods: {
-    menuToggle() {
-      this.isCollapse = !this.isCollapse;
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss"></style>

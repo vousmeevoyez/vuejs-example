@@ -7,7 +7,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "login"
+    redirect: "login",
+    meta: { visible: false }
   },
   {
     path: "/login",
@@ -26,28 +27,48 @@ const routes = [
     path: "/diagnostic",
     name: "DreamDiagnostic",
     icon: "el-icon-s-order",
-    meta: { layout: "base", visible: true, title: "DreamGPS Diagnostic" },
+    meta: {
+      layout: "base",
+      visible: true,
+      title: "DreamGPS Diagnostic",
+      auth: true
+    },
     component: () => import("@/views/diagnostic/Diagnostic.vue")
   },
   {
     path: "/design",
     name: "DreamGPS Design",
     icon: "el-icon-edit-outline",
-    meta: { layout: "base", visible: true, title: "DreamGPS Design" },
+    meta: {
+      layout: "base",
+      visible: true,
+      title: "DreamGPS Design",
+      auth: true
+    },
     component: () => import("@/views/design/Design.vue")
   },
   {
     path: "/implementation",
     name: "DreamGPS Implementation",
     icon: "el-icon-discover",
-    meta: { layout: "base", visible: true, title: "DreamGPS Implementation" },
+    meta: {
+      layout: "base",
+      visible: true,
+      title: "DreamGPS Implementation",
+      auth: true
+    },
     component: () => import("@/views/implementation/Implementation.vue")
   },
   {
     path: "/mentorship",
     name: "Power Mentorship",
     icon: "el-icon-user",
-    meta: { layout: "base", visible: true, title: "Power Mentorship" },
+    meta: {
+      layout: "base",
+      visible: true,
+      title: "Power Mentorship",
+      auth: true
+    },
     component: () => import("@/views/mentorship/Mentorship.vue")
   }
 ];

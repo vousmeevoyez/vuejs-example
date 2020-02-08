@@ -3,18 +3,23 @@
     <el-col>
       <el-tabs type="card">
         <el-tab-pane label="Design">
-          <el-col>
+          <el-col v-if="dream.url !== ''">
+            <img :src="`${dream.url}`" style="width:1024px; height:auto;" />
+          </el-col>
+          <el-col v-else>
             <p>{{ $t("design.instruction") }}</p>
           </el-col>
         </el-tab-pane>
         <el-tab-pane label="Roadmap">
-          <RoadmapTab :schedules="schedules" :calendars="calendars" />
+          <RoadmapTab :quests="dream.quests" :tasks="dream.tasks" />
         </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-container>
 </template>
 <script>
+import Vue from "vue";
+import { mapActions } from "vuex";
 import RoadmapTab from "./components/RoadmapTab.vue";
 
 export default {
@@ -22,61 +27,21 @@ export default {
   components: {
     RoadmapTab
   },
-  data() {
-    return {
-      schedules: [
-        {
-          goal: "Becoming an expert in public policy",
-          tasks: [
-            {
-              description: "Read 15 books about public policy",
-              start: "2019-12-01",
-              end: "2019-12-14"
-            },
-            {
-              description: "Research on articles to write",
-              start: "2019-12-14",
-              end: "2019-12-28"
-            }
-          ]
-        },
-        {
-          goal: "Becoming an expert in public policy",
-          tasks: [
-            {
-              description: "Read 15 books about public policy",
-              start: "2019-12-01",
-              end: "2019-12-14"
-            },
-            {
-              description: "Research on articles to write",
-              start: "2019-12-14",
-              end: "2019-12-28"
-            }
-          ]
-        }
-      ],
-      calendars: [
-        {
-          bar: {
-            color: "blue"
-          },
-          dates: {
-            start: new Date(2019, 11, 14),
-            end: new Date(2019, 11, 28)
-          }
-        },
-        {
-          bar: {
-            color: "pink"
-          },
-          dates: {
-            start: new Date(2019, 11, 1),
-            end: new Date(2019, 11, 14)
-          }
-        }
-      ]
-    };
+  computed: {
+    dream() {
+      return this.$store.state.dream;
+    }
+  },
+  mounted() {
+    const roadmapId = Vue.$cookies.get("roadmapId");
+    this.getUserRoadmap(roadmapId)
+      .then(data => {})
+      .catch(({ error }) => {
+        this.triggerError(error);
+      });
+  },
+  methods: {
+    ...mapActions(["getUserRoadmap", "triggerError"])
   }
 };
 </script>

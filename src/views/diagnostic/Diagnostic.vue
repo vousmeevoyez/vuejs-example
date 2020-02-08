@@ -2,12 +2,15 @@
   <el-container>
     <el-col>
       <el-card>
-        <el-row>
+        <el-row v-if="diagnostic_info.url !== ''">
           <vue-friendly-iframe
-            :src="url"
+            :src="`${diagnostic_info.url}`"
             className="iframe"
             @load="onLoad"
           ></vue-friendly-iframe>
+        </el-row>
+        <el-row v-else>
+          <p>{{ $t("diagnostic.instruction") }}</p>
         </el-row>
       </el-card>
     </el-col>
@@ -15,10 +18,10 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      url: "https://spark.adobe.com/page/stDgUOfa3NpeC/"
-    };
+  computed: {
+    diagnostic_info() {
+      return this.$store.state.diagnostic;
+    }
   }
 };
 </script>

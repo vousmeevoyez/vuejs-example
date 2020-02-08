@@ -56,7 +56,7 @@ export const actions = {
   async logoutUser({ commit }) {
     return new Promise((resolve, reject) => {
       commit("SET_ACCESS_TOKEN", "");
-      Vue.$cookies.remove("accessToken");
+      Vue.$cookies.keys().forEach(cookie => Vue.$cookies.remove(cookie));
       resolve();
     });
   }

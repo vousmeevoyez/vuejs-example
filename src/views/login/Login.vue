@@ -2,15 +2,6 @@
   <div class="center-screen">
     <el-row>
       <el-col>
-        <el-alert
-          v-if="alert.message"
-          :title="`${alert.message}`"
-          :type="`${alert.type}`"
-          @close="clearAlert"
-        >
-        </el-alert>
-      </el-col>
-      <el-col>
         <h1>DreamGravity</h1>
         <img src="@/assets/images/circle-logo.png" class="login-logo" />
       </el-col>
@@ -115,11 +106,6 @@
 import { mapActions } from "vuex";
 
 export default {
-  computed: {
-    alert() {
-      return this.$store.state.alert;
-    }
-  },
   data() {
     return {
       loginForm: {
@@ -208,17 +194,15 @@ export default {
     ...mapActions([
       "authenticateUser",
       "registerUser",
-      "triggerSuccess",
       "triggerError",
-      "triggerClear"
+      "triggerInfo"
     ]),
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true;
           this.authenticateUser(this.loginForm)
             .then(data => {
-              this.triggerSuccess("Successfully Authenticate...");
+              this.loading = true;
               this.$router.push("home");
             })
             .catch(({ error }) => {
@@ -234,7 +218,8 @@ export default {
           this.loading = true;
           this.registerUser(this.registrationForm)
             .then(data => {
-              this.triggerSuccess("Successfully Register...");
+              this.loading = false;
+              this.triggerInfo("Register instruction here....");
             })
             .catch(({ error }) => {
               this.loading = false;

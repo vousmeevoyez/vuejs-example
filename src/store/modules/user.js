@@ -45,6 +45,17 @@ export const actions = {
           commit("SET_FIRST_NAME", data.first_name);
           commit("SET_LAST_NAME", data.last_name);
           commit("SET_IMAGE", data.image);
+          // profile information
+          commit("SET_PROFILE_ID", data.profile.id);
+          commit("SET_NORTH_STAR", data.profile.north_star);
+          // diagnostic information
+          commit("SET_DIAGNOSTIC_ID", data.diagnostic.id);
+          commit("SET_DIAGNOSTIC_URL", data.diagnostic.url);
+          // dream information
+          commit("SET_DREAM_ID", data.dream.id);
+          commit("SET_DREAM_URL", data.dream.url);
+          // set roadmap id
+          commit("SET_ROADMAP_ID", data.roadmap.id);
           resolve(data);
         })
         .catch(({ response }) => {

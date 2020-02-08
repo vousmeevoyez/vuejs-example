@@ -24,3 +24,19 @@ export function convertFullNameToFirstLastName(fullName) {
     .join(" ");
   return { firstName: firstName, lastName: lastName };
 }
+
+export function generateRandomColor() {
+  const pallete = [
+    "gray",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "teal",
+    "blue",
+    "indigo",
+    "purple",
+    "pink"
+  ];
+  return pallete[Math.floor(Math.random() * pallete.length)];
+}

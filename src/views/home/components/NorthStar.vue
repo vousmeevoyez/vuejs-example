@@ -4,25 +4,20 @@
       <h1>{{ $t("home.north_star") }}</h1>
     </div>
     <el-row>
-      <el-col :span="12">
-        <i class="el-icon-star-off north-star"></i>
-      </el-col>
-      <el-col :span="12">
-        <i class="el-icon-star-off north-star"></i>
-      </el-col>
+      <el-col> {{ northStar }} </el-col>
     </el-row>
   </el-card>
 </template>
 <script>
 export default {
-  name: "Goal",
+  name: "NorthStar",
   props: {
-    data: Array
+    northStar: String
   },
   methods: {}
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .north-star {
   font-size: 2rem;
 }

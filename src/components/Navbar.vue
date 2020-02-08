@@ -1,12 +1,5 @@
 <template>
-  <el-menu
-    class="el-menu-vertical-demo"
-    @open="handleOpen"
-    @close="handleClose"
-    :collapse="isCollapse"
-    :router="true"
-    :default-active="activeLink"
-  >
+  <el-menu class="el-menu-vertical-demo" :collapse="isCollapse" :router="true">
     <el-row>
       <el-col>
         <img
@@ -21,9 +14,13 @@
         />
       </el-col>
     </el-row>
-    <el-row>
+    <el-row style="padding-top:10px;">
       <el-col :offset="6" class="image-cropper">
-        <img :src="`${user.image}`" v-if="isCollapse === false" />
+        <img
+          v-if="isCollapse === false && user.image != null"
+          :src="`${user.image}`"
+        />
+        <img v-else src="@/assets/images/profile.jpeg" />
       </el-col>
     </el-row>
     <el-row>
@@ -72,11 +69,6 @@ export default {
     $route(newVal, oldVal) {
       this.activeLink = newVal.path;
     }
-  },
-  data() {
-    return {
-      dream_progress_percent: "green"
-    };
   }
 };
 </script>

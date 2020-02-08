@@ -17,7 +17,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <span v-on:click="logout()">Logout</span>
+              <span @click="handleLogout()">Logout</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -26,11 +26,20 @@
   </el-header>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "Header",
   props: {
     menuToggle: Function,
     user: Object
+  },
+  methods: {
+    ...mapActions(["logoutUser"]),
+    handleLogout() {
+      this.logoutUser().then(data => {
+        this.$router.push("login");
+      });
+    }
   }
 };
 </script>
