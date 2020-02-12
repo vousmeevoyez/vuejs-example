@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 
 import ElementUI from "element-ui";
+import elementLocale from "element-ui/lib/locale/lang/en";
 import "@/assets/css/element-variables.scss";
 // external
 import VCalendar from "v-calendar";
@@ -19,7 +20,7 @@ import i18n from "@/i18n";
 // layout
 import Base from "@/layout/Base.vue";
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale: elementLocale });
 Vue.use(VueApexCharts);
 Vue.use(VueFriendlyIframe);
 Vue.use(VCalendar, {

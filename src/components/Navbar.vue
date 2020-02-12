@@ -20,7 +20,7 @@
           v-if="isCollapse === false && user.image != null"
           :src="`${user.image}`"
         />
-        <img v-else src="@/assets/images/profile.jpeg" />
+        <img v-if="isCollapse === false" src="@/assets/images/profile.jpeg" />
       </el-col>
     </el-row>
     <el-row>

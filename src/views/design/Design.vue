@@ -27,10 +27,10 @@ export default {
   components: {
     RoadmapTab
   },
-  computed: {
-    dream() {
-      return this.$store.state.dream;
-    }
+  data() {
+    return {
+      dream: this.$store.state.dream
+    };
   },
   mounted() {
     const roadmapId = Vue.$cookies.get("roadmapId");

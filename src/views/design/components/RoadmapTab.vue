@@ -2,8 +2,10 @@
   <el-container>
     <el-col>
       <el-row style="padding-bottom:15px;">
-        <h1>Your Schedule</h1>
-        <el-col>
+        <el-card>
+          <div slot="header">
+            <h4>Your Schedule</h4>
+          </div>
           <el-table
             :data="quests"
             style="width: 100%"
@@ -22,14 +24,18 @@
                 </el-table>
               </template>
             </el-table-column>
-            <el-table-column label="Goal" prop="description"> </el-table-column>
+            <el-table-column label="Goal" prop="description">
+              <template slot-scope="scope">
+                <strong>{{ scope.row.description }}</strong>
+              </template>
+            </el-table-column>
           </el-table>
-        </el-col>
+        </el-card>
       </el-row>
       <el-row>
         <el-col>
           <vc-calendar
-            :attributes="calendars"
+            :attributes="tasks"
             :columns="layout.columns"
             :rows="layout.rows"
             :is-expanded="layout.isExpanded"
@@ -51,29 +57,24 @@ export default {
       return this.$screens({
         // Default layout for mobile
         default: {
-          columns: 3,
-          rows: 2,
+          columns: 4,
+          rows: 1,
           isExpanded: true
         },
         // min-width 1024px
         lg: {
-          columns: 3,
-          rows: 2,
+          columns: 4,
+          rows: 1,
           isExpanded: true
         },
         // min-width 1280px
         xl: {
-          columns: 3,
-          rows: 2,
+          columns: 4,
+          rows: 1,
           isExpanded: true
         }
       });
     }
-  },
-  data() {
-    return {
-      calendars: this.tasks
-    };
   },
   methods: {
     questRowName({ row, rowIndex }) {

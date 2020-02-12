@@ -20,44 +20,37 @@ export const mutations = {
 };
 
 export const actions = {
-  async authenticateUser({ commit }, formData) {
-    return new Promise((resolve, reject) => {
-      fetchTokenAPI(formData.username, formData.password)
-        .then(({ data }) => {
-          const tokenPayload = parseJwt(data.access);
-          commit("SET_ACCESS_TOKEN", data.access);
-          commit("SET_USER_ID", tokenPayload.user_id);
-          resolve(tokenPayload);
-        })
-        .catch(({ response }) => {
-          reject(response.data);
-        });
-    });
+  authenticateUser({ commit }, formData) {
+    return fetchTokenAPI(formData.username, formData.password)
+      .then(({ data }) => {
+        const tokenPayload = parseJwt(data.access);
+        commit("SET_ACCESS_TOKEN", data.access);
+        commit("SET_USER_ID", tokenPayload.user_id);
+        return tokenPayload;
+      })
+      .catch(({ response }) => {
+        return response.data;
+      });
   },
-  async registerUser({ commit }, formData) {
-    return new Promise((resolve, reject) => {
-      const converted = convertFullNameToFirstLastName(formData.fullName);
-      registerUserAPI(
-        formData.email,
-        converted.firstName,
-        converted.lastName,
-        formData.password,
-        "USER",
-        formData.username
-      )
-        .then(({ data }) => {
-          resolve();
-        })
-        .catch(({ response }) => {
-          reject(response.data);
-        });
-    });
+  registerUser({ commit }, formData) {
+    const converted = convertFullNameToFirstLastName(formData.fullName);
+    return registerUserAPI(
+      formData.email,
+      converted.firstName,
+      converted.lastName,
+      formData.password,
+      "USER",
+      formData.username
+    )
+      .then(({ data }) => {
+        return data;
+      })
+      .catch(({ response }) => {
+        return response.data;
+      });
   },
-  async logoutUser({ commit }) {
-    return new Promise((resolve, reject) => {
-      commit("SET_ACCESS_TOKEN", "");
-      Vue.$cookies.keys().forEach(cookie => Vue.$cookies.remove(cookie));
-      resolve();
-    });
+  logoutUser({ commit }) {
+    commit("SET_ACCESS_TOKEN", "");
+    Vue.$cookies.keys().forEach(cookie => Vue.$cookies.remove(cookie));
   }
 };

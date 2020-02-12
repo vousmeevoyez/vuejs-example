@@ -59,17 +59,15 @@ export const mutations = {
 };
 
 export const actions = {
-  async getUserRoadmap({ commit }, roadmapId) {
-    return new Promise((resolve, reject) => {
-      getRoadmapAPI(roadmapId)
-        .then(({ data }) => {
-          commit("SET_QUESTS", data.quests);
-          commit("SET_TASKS", data.quests);
-          resolve(data);
-        })
-        .catch(({ response }) => {
-          reject(response.data);
-        });
-    });
+  getUserRoadmap({ commit }, roadmapId) {
+    return getRoadmapAPI(roadmapId)
+      .then(({ data }) => {
+        commit("SET_QUESTS", data.quests);
+        commit("SET_TASKS", data.quests);
+        return data;
+      })
+      .catch(({ response }) => {
+        return response.data;
+      });
   }
 };

@@ -43,7 +43,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="Register">
+          <!--<el-tab-pane label="Register">
             <el-form
               ref="registrationForm"
               :model="registrationForm"
@@ -96,7 +96,7 @@
                 </el-button>
               </el-form-item>
             </el-form>
-          </el-tab-pane>
+					</el-tab-pane>-->
         </el-tabs>
       </el-col>
     </el-row>

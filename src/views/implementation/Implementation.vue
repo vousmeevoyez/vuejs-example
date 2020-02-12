@@ -35,24 +35,6 @@ export default {
           goal_id: "goal_1",
           description: "something backlogs 1",
           date: "2019-12-29"
-        },
-        {
-          id: 2,
-          goal_id: "goal_2",
-          description: "something backlogs 2",
-          date: "2019-12-29"
-        },
-        {
-          id: 3,
-          goal_id: "goal_3",
-          description: "something backlogs 3",
-          date: "2019-12-29"
-        },
-        {
-          id: 4,
-          goal_id: "goal_4",
-          description: "something backlogs 4",
-          date: "2019-12-29"
         }
       ],
       todos: [
@@ -60,24 +42,6 @@ export default {
           id: 1,
           goal_id: "goal_2",
           description: "something todos 1",
-          date: "2019-12-29"
-        },
-        {
-          id: 2,
-          goal_id: "goal_3",
-          description: "something todos 2",
-          date: "2019-12-29"
-        },
-        {
-          id: 3,
-          goal_id: "goal_1",
-          description: "something todos 3",
-          date: "2019-12-29"
-        },
-        {
-          id: 4,
-          goal_id: "goal_4",
-          description: "something todos 4",
           date: "2019-12-29"
         }
       ],
@@ -87,24 +51,6 @@ export default {
           goal_id: "goal_2",
           description: "something doing 1",
           date: "2019-12-29"
-        },
-        {
-          id: 2,
-          goal_id: "goal_4",
-          description: "something doing 2",
-          date: "2019-12-29"
-        },
-        {
-          id: 3,
-          goal_id: "goal_1",
-          description: "something doing 3",
-          date: "2019-12-29"
-        },
-        {
-          id: 4,
-          goal_id: "goal_3",
-          description: "something doing 4",
-          date: "2019-12-29"
         }
       ],
       dones: [
@@ -112,24 +58,6 @@ export default {
           id: 1,
           goal_id: "goal_4",
           description: "something done 1",
-          date: "2019-12-29"
-        },
-        {
-          id: 2,
-          goal_id: "goal_3",
-          description: "something done 2",
-          date: "2019-12-29"
-        },
-        {
-          id: 3,
-          goal_id: "goal_1",
-          description: "something done 3",
-          date: "2019-12-29"
-        },
-        {
-          id: 4,
-          goal_id: "goal_2",
-          description: "something done 4",
           date: "2019-12-29"
         }
       ],
