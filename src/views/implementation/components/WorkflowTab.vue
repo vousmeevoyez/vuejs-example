@@ -19,7 +19,6 @@
                   title="Create Card"
                   :visible.sync="dialogVisible"
                   width="30%"
-                  :before-close="handleClose"
                 >
                   <el-form :model="cardForm">
                     <el-form-item
@@ -39,7 +38,7 @@
                       :label-width="cardForm.width"
                     >
                       <el-select
-                        v-model="category_id"
+                        v-model="cardForm.category_id"
                         placeholder="Select Category"
                         style="width:100%"
                       >
@@ -79,9 +78,9 @@
             <CardItem
               v-for="(backlog, index) in backlogs"
               :key="index"
-              :card_key="'goal_id'"
+              card_key="task"
               :data="backlog"
-              :colors="colors"
+              :colors="categories"
             />
           </draggable>
         </el-card>
@@ -92,13 +91,13 @@
         <el-card>
           <span>Categories</span>
           <el-tag
-            v-for="(value, key) in colors"
-            :key="value"
-            :color="value"
+            v-for="(value, key) in categories"
+            :key="key"
+            :color="value.color"
             type="info"
             style="color:white; margin-left:5px; margin-right:5px;"
           >
-            {{ key }}
+            {{ value.label }}
           </el-tag>
         </el-card>
       </el-col>
@@ -106,6 +105,7 @@
   </el-col>
 </template>
 <script>
+import { mapActions } from "vuex";
 import draggable from "vuedraggable";
 import CardItem from "@/components/CardItem.vue";
 export default {
@@ -114,52 +114,70 @@ export default {
     CardItem,
     draggable
   },
-  props: {
-    backlogs: Array,
-    todos: Array,
-    doings: Array,
-    dones: Array
+  methods: {
+    ...mapActions(["getUserCard", "getUserRoadmap", "triggerError"]),
+    fetchData() {
+      const implementation = this.$store.state.implementation;
+      this.getUserCard()
+        .then(data => {
+          this.backlogs = implementation.backlogs;
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
+      this.getUserRoadmap()
+        .then(data => {
+          this.options = implementation.categories;
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
+    },
+    filterCards(status) {
+      const cards = this.$store.state.implementation.cards;
+      const filteredCards = cards.filter(card => {
+        return card.status === status;
+      });
+      return filteredCards;
+    },
+    convertToColorCategories(categories) {
+      let result = {};
+      for (const category of categories) {
+        result[category.value] = {
+          color: category.color,
+          label: category.label
+        };
+      }
+      return result;
+    }
+  },
+  mounted() {
+    this.fetchData();
+  },
+  computed: {
+    categories() {
+      return this.convertToColorCategories(
+        this.$store.state.implementation.categories
+      );
+    },
+    backlogs() {
+      return this.filterCards("b");
+    },
+    todos() {
+      return this.filterCards("t");
+    }
   },
   data() {
     return {
       dialogVisible: false,
       cardForm: {
-        width: "120px",
         description: "",
         category_id: "",
         dueDate: ""
       },
-      options: [
-        {
-          value: "Option1",
-          label: "Option1"
-        },
-        {
-          value: "Option2",
-          label: "Option2"
-        },
-        {
-          value: "Option3",
-          label: "Option3"
-        },
-        {
-          value: "Option4",
-          label: "Option4"
-        },
-        {
-          value: "Option5",
-          label: "Option5"
-        }
-      ],
-      colors: {
-        goal_1: "#34495e",
-        goal_2: "#3498db",
-        goal_3: "#27ae60",
-        goal_4: "#f1c40f"
-      }
+      options: []
     };
-  },
-  methods: {}
+  }
 };
 </script>
 <style lang="scss"></style>

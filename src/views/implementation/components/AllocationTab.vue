@@ -2,7 +2,7 @@
   <el-col>
     <el-row>
       <el-col :span="12">
-        <el-row :justify="center">
+        <el-row justify="center">
           <h1>Actual</h1>
           <apexchart
             width="100%"

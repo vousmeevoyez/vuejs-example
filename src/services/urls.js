@@ -3,5 +3,6 @@ export const urls = {
   GET_TOKEN: "auth/token",
   REGISTER_USER: "users/signup",
   USER: "users/",
-  USER_ROADMAP: "users/roadmap/"
+  USER_ROADMAP: "users/roadmap/",
+  USER_CARD: "users/card/"
 };

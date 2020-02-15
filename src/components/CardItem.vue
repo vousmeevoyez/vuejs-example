@@ -24,7 +24,7 @@ export default {
   methods: {
     markCard(data) {
       // based on selected key we use passed colors as the style
-      let color = this.colors[data[this.card_key]];
+      let color = this.colors[data[this.card_key]].color;
       let style = `border-top: 9px solid ${color}`;
       return style;
     }

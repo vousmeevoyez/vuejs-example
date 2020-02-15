@@ -18,7 +18,6 @@
   </el-container>
 </template>
 <script>
-import Vue from "vue";
 import { mapActions } from "vuex";
 import RoadmapTab from "./components/RoadmapTab.vue";
 
@@ -27,21 +26,20 @@ export default {
   components: {
     RoadmapTab
   },
+  methods: {
+    ...mapActions(["getUserRoadmap", "triggerError"])
+  },
   data() {
     return {
       dream: this.$store.state.dream
     };
   },
   mounted() {
-    const roadmapId = Vue.$cookies.get("roadmapId");
-    this.getUserRoadmap(roadmapId)
+    this.getUserRoadmap()
       .then(data => {})
       .catch(({ error }) => {
         this.triggerError(error);
       });
-  },
-  methods: {
-    ...mapActions(["getUserRoadmap", "triggerError"])
   }
 };
 </script>

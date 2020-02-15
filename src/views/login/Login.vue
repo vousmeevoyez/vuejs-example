@@ -200,9 +200,10 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          this.loading = true;
           this.authenticateUser(this.loginForm)
             .then(data => {
-              this.loading = true;
+              this.loading = false;
               this.$router.push("home");
             })
             .catch(({ error }) => {

@@ -10,14 +10,14 @@
         </p>
 			</div>-->
       <div class="user-info">
-        <el-dropdown trigger="click">
+        <el-dropdown @command="handleDropdown">
           <span class="el-dropdown-link">
             {{ user.firstName }} {{ user.lastName }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <span @click="handleLogout()">Logout</span>
+            <el-dropdown-item command="logout">
+              <span>Logout</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -35,6 +35,11 @@ export default {
   },
   methods: {
     ...mapActions(["logoutUser"]),
+    handleDropdown(command) {
+      if (command === "logout") {
+        this.handleLogout();
+      }
+    },
     handleLogout() {
       this.logoutUser().then(data => {
         this.$router.push("login");

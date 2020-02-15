@@ -1,14 +1,14 @@
 import Vue from "vue";
 // import Moment from "moment";
 import { getRoadmapAPI } from "../../services";
-import { generateRandomColor } from "../../utility/utils";
+// import { generateRandomColor } from "../../utility/utils";
 
 export const state = {
   dreamId: null,
   url: null,
   roadmapId: null,
-  quests: null,
-  tasks: null
+  quests: [],
+  tasks: []
 };
 
 export const getters = {
@@ -37,14 +37,13 @@ export const mutations = {
     const result = [];
     for (const quest of quests) {
       for (const task of quest.tasks) {
-        const color = generateRandomColor();
         result.push({
           id: task.id,
           popover: {
             label: task.description
           },
           bar: {
-            color: color
+            color: task.color
           },
           dates: {
             start: task.start,
@@ -59,15 +58,19 @@ export const mutations = {
 };
 
 export const actions = {
-  getUserRoadmap({ commit }, roadmapId) {
-    return getRoadmapAPI(roadmapId)
-      .then(({ data }) => {
-        commit("SET_QUESTS", data.quests);
-        commit("SET_TASKS", data.quests);
-        return data;
-      })
-      .catch(({ response }) => {
-        return response.data;
-      });
+  getUserRoadmap({ commit }) {
+    const roadmapId = Vue.$cookies.get("roadmapId");
+    return new Promise((resolve, reject) => {
+      getRoadmapAPI(roadmapId)
+        .then(({ data }) => {
+          commit("SET_QUESTS", data.quests);
+          commit("SET_TASKS", data.quests);
+          commit("SET_CATEGORIES", data.quests);
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
   }
 };

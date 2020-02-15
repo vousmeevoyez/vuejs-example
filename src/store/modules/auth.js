@@ -21,33 +21,37 @@ export const mutations = {
 
 export const actions = {
   authenticateUser({ commit }, formData) {
-    return fetchTokenAPI(formData.username, formData.password)
-      .then(({ data }) => {
-        const tokenPayload = parseJwt(data.access);
-        commit("SET_ACCESS_TOKEN", data.access);
-        commit("SET_USER_ID", tokenPayload.user_id);
-        return tokenPayload;
-      })
-      .catch(({ response }) => {
-        return response.data;
-      });
+    return new Promise((resolve, reject) => {
+      fetchTokenAPI(formData.username, formData.password)
+        .then(({ data }) => {
+          const tokenPayload = parseJwt(data.access);
+          commit("SET_ACCESS_TOKEN", data.access);
+          commit("SET_USER_ID", tokenPayload.user_id);
+          resolve(tokenPayload);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
   },
   registerUser({ commit }, formData) {
     const converted = convertFullNameToFirstLastName(formData.fullName);
-    return registerUserAPI(
-      formData.email,
-      converted.firstName,
-      converted.lastName,
-      formData.password,
-      "USER",
-      formData.username
-    )
-      .then(({ data }) => {
-        return data;
-      })
-      .catch(({ response }) => {
-        return response.data;
-      });
+    return new Promise((resolve, reject) => {
+      registerUserAPI(
+        formData.email,
+        converted.firstName,
+        converted.lastName,
+        formData.password,
+        "USER",
+        formData.username
+      )
+        .then(({ data }) => {
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
   },
   logoutUser({ commit }) {
     commit("SET_ACCESS_TOKEN", "");
