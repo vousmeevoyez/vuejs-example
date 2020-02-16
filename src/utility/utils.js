@@ -40,3 +40,10 @@ export function generateRandomColor() {
   ];
   return pallete[Math.floor(Math.random() * pallete.length)];
 }
+
+export function filterCards(cards, status) {
+  const filterCards = cards.filter(card => {
+    return card.status === status;
+  });
+  return filterCards;
+}

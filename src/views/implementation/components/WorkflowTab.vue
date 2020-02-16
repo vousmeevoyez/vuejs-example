@@ -49,7 +49,7 @@
                         style="width:100%"
                       >
                         <el-option
-                          v-for="item in options"
+                          v-for="item in categoryOptions"
                           :key="item.value"
                           :label="item.label"
                           :value="item.value"
@@ -84,15 +84,10 @@
               </el-col>
             </el-row>
           </div>
-          <draggable
-            class="list-group"
-            :list="backlogs"
-            @change="handleDrag"
-            group="card"
-          >
+          <draggable v-model="backlogs" group="card">
             <CardItem
-              v-for="(backlog, index) in backlogs"
-              :key="index"
+              v-for="backlog in backlogs"
+              :key="backlog.id"
               card_key="task"
               :data="backlog"
               :colors="categories"
@@ -108,17 +103,50 @@
               <h1>Todo</h1>
             </el-row>
           </div>
-          <draggable
-            class="list-group"
-            :list="todos"
-            @change="handleDrag"
-            group="card"
-          >
+          <draggable v-model="todos" group="card">
             <CardItem
-              v-for="(todo, index) in todos"
-              :key="index"
+              v-for="todo in todos"
+              :key="todo.id"
               card_key="task"
               :data="todo"
+              :colors="categories"
+              @deletion="handleDeleteCard"
+            />
+          </draggable>
+        </el-card>
+      </el-col>
+      <el-col :span="6" style="padding-right:10px;">
+        <el-card>
+          <div slot="header">
+            <el-row>
+              <h1>Doing</h1>
+            </el-row>
+          </div>
+          <draggable v-model="doings" group="card">
+            <CardItem
+              v-for="doing in doings"
+              :key="doing.id"
+              card_key="task"
+              :data="doing"
+              :colors="categories"
+              @deletion="handleDeleteCard"
+            />
+          </draggable>
+        </el-card>
+      </el-col>
+      <el-col :span="6" style="padding-right:10px;">
+        <el-card>
+          <div slot="header">
+            <el-row>
+              <h1>Done</h1>
+            </el-row>
+          </div>
+          <draggable v-model="dones" group="card">
+            <CardItem
+              v-for="done in dones"
+              :key="done.id"
+              card_key="task"
+              :data="done"
               :colors="categories"
               @deletion="handleDeleteCard"
             />
@@ -160,32 +188,21 @@ export default {
       "getUserRoadmap",
       "createCard",
       "deleteCard",
+      "patchCard",
       "triggerSuccess",
       "triggerError"
     ]),
     fetchData() {
-      const implementation = this.$store.state.implementation;
       this.getUserCard()
-        .then(data => {
-          this.backlogs = implementation.backlogs;
-        })
+        .then(data => {})
         .catch(({ error }) => {
           this.triggerError(error);
         });
       this.getUserRoadmap()
-        .then(data => {
-          this.options = implementation.categories;
-        })
+        .then(data => {})
         .catch(({ error }) => {
           this.triggerError(error);
         });
-    },
-    filterCards(status) {
-      const cards = this.$store.state.implementation.cards;
-      const filteredCards = cards.filter(card => {
-        return card.status === status;
-      });
-      return filteredCards;
     },
     convertToColorCategories(categories) {
       let result = {};
@@ -225,9 +242,6 @@ export default {
         .catch(({ error }) => {
           this.triggerError(error);
         });
-    },
-    handleDrag(evt) {
-      console.log(evt);
     }
   },
   mounted() {
@@ -239,11 +253,60 @@ export default {
         this.$store.state.implementation.categories
       );
     },
-    backlogs() {
-      return this.filterCards("b");
+    categoryOptions() {
+      return this.$store.state.implementation.categories;
     },
-    todos() {
-      return this.filterCards("t");
+    backlogs: {
+      get() {
+        return this.$store.state.implementation.backlogs;
+      },
+      set(value) {
+        this.$store.commit("SET_SERVER_CARDS", {
+          cards: value,
+          attribute: "backlogs",
+          status: "b"
+        });
+        this.$store.commit("SET_BACKLOGS", value);
+      }
+    },
+    todos: {
+      get() {
+        return this.$store.state.implementation.todos;
+      },
+      set(value) {
+        this.$store.commit("SET_SERVER_CARDS", {
+          cards: value,
+          attribute: "todos",
+          status: "t"
+        });
+        this.$store.commit("SET_TODOS", value);
+      }
+    },
+    doings: {
+      get() {
+        return this.$store.state.implementation.doings;
+      },
+      set(value) {
+        this.$store.commit("SET_SERVER_CARDS", {
+          cards: value,
+          attribute: "doings",
+          status: "dg"
+        });
+        this.$store.commit("SET_DOINGS", value);
+      }
+    },
+    dones: {
+      get() {
+        return this.$store.state.implementation.dones;
+      },
+      set(value) {
+        this.$store.commit("SET_SERVER_CARDS", {
+          cards: value,
+          attribute: "dones",
+          status: "d"
+        });
+        this.$store.commit("SET_DONES", value);
+      }
     }
   },
   data() {
@@ -283,8 +346,7 @@ export default {
             trigger: "change"
           }
         ]
-      },
-      options: []
+      }
     };
   }
 };

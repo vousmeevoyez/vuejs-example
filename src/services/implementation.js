@@ -34,3 +34,24 @@ export function deleteCardAPI(cardId) {
     method: "DELETE"
   });
 }
+
+export function patchCardAPI(cardId, status) {
+  return http({
+    url: urls["USER_CARD"] + cardId + "/",
+    method: "PATCH",
+    data: {
+      status: status
+    }
+  });
+}
+
+export function bulkPatchCardAPI(cardIds, status) {
+  return http({
+    url: urls["USER_BULK_PATCH_CARDS"],
+    method: "PATCH",
+    data: {
+      cards: cardIds,
+      status: status
+    }
+  });
+}

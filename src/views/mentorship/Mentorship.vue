@@ -2,11 +2,6 @@
   <el-container>
     <el-col>
       <el-tabs type="card">
-        <el-tab-pane label="Home">
-          <el-col :span="12">
-            <Card :title="mentor_title" :data="mentors" />
-          </el-col>
-        </el-tab-pane>
         <el-tab-pane label="Discover">
           <DiscoverTab :mentors="mentors" />
         </el-tab-pane>

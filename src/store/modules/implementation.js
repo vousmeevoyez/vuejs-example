@@ -4,17 +4,25 @@ import {
   getAllocationAPI,
   getCardAPI,
   createCardAPI,
-  deleteCardAPI
+  deleteCardAPI,
+  bulkPatchCardAPI
 } from "../../services";
+import { filterCards } from "../../utility/utils";
 
 export const state = {
-  cards: [],
+  backlogs: [],
+  todos: [],
+  doings: [],
+  dones: [],
   categories: [],
   allocation: {}
 };
 
 export const getters = {
-  cards: state => state.cards,
+  backlogs: state => state.backlogs,
+  todos: state => state.todos,
+  doings: state => state.doings,
+  dones: state => state.dones,
   categories: state => state.categories,
   allocation: state => state.allocation
 };
@@ -33,8 +41,34 @@ export const mutations = {
     }
     state.categories = result;
   },
-  SET_CARDS: (state, cards) => {
-    state.cards = cards;
+  SET_LOCAL_CARDS: (state, cards) => {
+    state.backlogs = filterCards(cards, "b");
+    state.todos = filterCards(cards, "t");
+    state.doings = filterCards(cards, "dg");
+    state.dones = filterCards(cards, "d");
+  },
+  SET_SERVER_CARDS: (state, cardInfo) => {
+    // patch multiple cards to server
+    let cards = cardInfo.cards;
+    const cardIds = [];
+    for (let card of cards) {
+      cardIds.push(card.id);
+    }
+    bulkPatchCardAPI(cardIds, cardInfo.status)
+      .then(data => {})
+      .catch(({ response }) => {});
+  },
+  SET_BACKLOGS: (state, cards) => {
+    state.backlogs = cards;
+  },
+  SET_TODOS: (state, cards) => {
+    state.todos = cards;
+  },
+  SET_DOINGS: (state, cards) => {
+    state.doings = cards;
+  },
+  SET_DONES: (state, cards) => {
+    state.dones = cards;
   },
   SET_ALLOCATION: (state, allocations) => {
     // mutate the data according to library format
@@ -70,7 +104,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       getCardAPI(userId)
         .then(({ data }) => {
-          commit("SET_CARDS", data.results);
+          commit("SET_LOCAL_CARDS", data.results);
           resolve(data);
         })
         .catch(({ response }) => {

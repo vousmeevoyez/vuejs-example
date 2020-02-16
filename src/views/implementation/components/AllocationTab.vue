@@ -8,7 +8,7 @@
           <apexchart
             v-if="chartOptions.labels.length"
             width="100%"
-            type="pie"
+            type="donut"
             :options="chartOptions"
             :series="actual.data"
           ></apexchart>
@@ -19,7 +19,7 @@
         <apexchart
           v-if="chartOptions.labels.length"
           width="100%"
-          type="pie"
+          type="donut"
           :options="chartOptions"
           :series="target.data"
         ></apexchart>
@@ -55,7 +55,7 @@ export default {
     return {
       chartOptions: {
         chart: {
-          type: "pie"
+          type: "donut"
         },
         labels: []
       },
