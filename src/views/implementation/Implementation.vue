@@ -21,28 +21,6 @@ export default {
   components: {
     WorkflowTab,
     AllocationTab
-  },
-  data() {
-    return {
-      actual: {
-        data: [10, 20, 20, 50],
-        options: {
-          chart: {
-            id: "actual-allocation-dount"
-          },
-          labels: ["Entertainment", "Study", "Exercise", "Social", "Etc"]
-        }
-      },
-      target: {
-        data: [15, 15, 15, 55],
-        options: {
-          chart: {
-            id: "target-allocation-dount"
-          },
-          labels: ["Entertainment", "Study", "Exercise", "Social", "Etc"]
-        }
-      }
-    };
   }
 };
 </script>

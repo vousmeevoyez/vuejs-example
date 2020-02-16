@@ -20,10 +20,15 @@
                   :visible.sync="dialogVisible"
                   width="30%"
                 >
-                  <el-form :model="cardForm">
+                  <el-form
+                    :model="cardForm"
+                    ref="cardForm"
+                    :rules="cardFormRules"
+                  >
                     <el-form-item
                       label="Description"
                       :label-width="cardForm.width"
+                      prop="description"
                     >
                       <el-input
                         type="textarea"
@@ -36,9 +41,10 @@
                     <el-form-item
                       label="Categories"
                       :label-width="cardForm.width"
+                      prop="taskId"
                     >
                       <el-select
-                        v-model="cardForm.category_id"
+                        v-model="cardForm.taskId"
                         placeholder="Select Category"
                         style="width:100%"
                       >
@@ -54,11 +60,12 @@
                     <el-form-item
                       label="Due Date"
                       :label-width="cardForm.width"
+                      prop="dueDate"
                     >
                       <el-date-picker
                         v-model="cardForm.dueDate"
                         type="date"
-                        placeholder="Pick a day"
+                        placeholder="Pick a Due Date"
                         style="width:100%"
                       >
                       </el-date-picker>
@@ -66,7 +73,10 @@
                   </el-form>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">Cancel</el-button>
-                    <el-button type="primary" @click="dialogVisible = false"
+                    <el-button
+                      :loading="loading"
+                      type="primary"
+                      @click.native.prevent="handleCreateCard('b')"
                       >Confirm</el-button
                     >
                   </span>
@@ -74,13 +84,43 @@
               </el-col>
             </el-row>
           </div>
-          <draggable :list="backlogs" @change="log">
+          <draggable
+            class="list-group"
+            :list="backlogs"
+            @change="handleDrag"
+            group="card"
+          >
             <CardItem
               v-for="(backlog, index) in backlogs"
               :key="index"
               card_key="task"
               :data="backlog"
               :colors="categories"
+              @deletion="handleDeleteCard"
+            />
+          </draggable>
+        </el-card>
+      </el-col>
+      <el-col :span="6" style="padding-right:10px;">
+        <el-card>
+          <div slot="header">
+            <el-row>
+              <h1>Todo</h1>
+            </el-row>
+          </div>
+          <draggable
+            class="list-group"
+            :list="todos"
+            @change="handleDrag"
+            group="card"
+          >
+            <CardItem
+              v-for="(todo, index) in todos"
+              :key="index"
+              card_key="task"
+              :data="todo"
+              :colors="categories"
+              @deletion="handleDeleteCard"
             />
           </draggable>
         </el-card>
@@ -115,7 +155,14 @@ export default {
     draggable
   },
   methods: {
-    ...mapActions(["getUserCard", "getUserRoadmap", "triggerError"]),
+    ...mapActions([
+      "getUserCard",
+      "getUserRoadmap",
+      "createCard",
+      "deleteCard",
+      "triggerSuccess",
+      "triggerError"
+    ]),
     fetchData() {
       const implementation = this.$store.state.implementation;
       this.getUserCard()
@@ -149,6 +196,38 @@ export default {
         };
       }
       return result;
+    },
+    handleCreateCard(status) {
+      this.$refs.cardForm.validate(valid => {
+        if (valid) {
+          this.loading = true;
+          this.cardForm.status = status;
+          this.createCard(this.cardForm)
+            .then(data => {
+              this.loading = false;
+              this.triggerSuccess("Card successfully created");
+              this.fetchData();
+              this.$refs.cardForm.resetFields();
+              this.dialogVisible = false;
+            })
+            .catch(({ error }) => {
+              this.triggerError(error);
+            });
+        }
+      });
+    },
+    handleDeleteCard(cardInfo) {
+      this.deleteCard(cardInfo.id)
+        .then(() => {
+          this.triggerSuccess("Card successfully removed");
+          this.fetchData();
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
+    },
+    handleDrag(evt) {
+      console.log(evt);
     }
   },
   mounted() {
@@ -170,14 +249,44 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      loading: false,
       cardForm: {
         description: "",
-        category_id: "",
-        dueDate: ""
+        taskId: "",
+        dueDate: "",
+        status: ""
+      },
+      cardFormRules: {
+        description: [
+          {
+            required: true,
+            message: "Description is required",
+            trigger: "change"
+          },
+          {
+            min: 5,
+            message: "minimal 5 letter",
+            trigger: "blur"
+          }
+        ],
+        taskId: [
+          {
+            required: true,
+            message: "Category is required",
+            trigger: "change"
+          }
+        ],
+        dueDate: [
+          {
+            required: true,
+            message: "Due Date is required",
+            trigger: "change"
+          }
+        ]
       },
       options: []
     };
   }
 };
 </script>
-<style lang="scss"></style>
+<style></style>

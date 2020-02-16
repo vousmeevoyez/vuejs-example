@@ -1,38 +1,71 @@
 <template>
   <el-col>
     <el-row>
+      {{ allocation }}
       <el-col :span="12">
         <el-row justify="center">
           <h1>Actual</h1>
           <apexchart
+            v-if="chartOptions.labels.length"
             width="100%"
-            type="donut"
-            :options="actual.options"
+            type="pie"
+            :options="chartOptions"
             :series="actual.data"
-            :labels="actual.labels"
           ></apexchart>
         </el-row>
       </el-col>
       <el-col :span="12">
-        <h1>Implementation</h1>
+        <h1>Target</h1>
         <apexchart
+          v-if="chartOptions.labels.length"
           width="100%"
-          type="donut"
-          :options="target.options"
+          type="pie"
+          :options="chartOptions"
           :series="target.data"
-          :labels="target.labels"
         ></apexchart>
       </el-col>
     </el-row>
   </el-col>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
-  name: "RoadmapTab",
-  props: {
-    target: Object,
-    actual: Object
+  name: "AllocationTab",
+  methods: {
+    ...mapActions(["getUserAllocation", "triggerError"]),
+    fetchData() {
+      this.getUserAllocation()
+        .then(data => {
+          const allocation = this.$store.state.implementation.allocation;
+
+          this.chartOptions.labels = allocation.labels;
+          this.actual.data = allocation.actuals;
+          this.target.data = allocation.targets;
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
+    }
+  },
+  mounted() {
+    this.fetchData();
+    // const allocation = this.$store.state.implementation.allocation;
+  },
+  data() {
+    return {
+      chartOptions: {
+        chart: {
+          type: "pie"
+        },
+        labels: []
+      },
+      actual: {
+        data: []
+      },
+      target: {
+        data: []
+      }
+    };
   }
 };
 </script>
-<style lang="scss"></style>

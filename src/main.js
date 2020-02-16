@@ -11,6 +11,7 @@ import VCalendar from "v-calendar";
 import VueApexCharts from "vue-apexcharts";
 import VueFriendlyIframe from "vue-friendly-iframe";
 import VueCookies from "vue-cookies";
+import Moment from "moment";
 
 // lodash
 import upperFirst from "lodash/upperFirst";
@@ -66,6 +67,11 @@ requireComponent.keys().forEach(fileName => {
 });
 
 Vue.config.productionTip = false;
+Vue.filter("humanDate", function(value) {
+  if (value) {
+    return Moment(value).format("MMMM Do YYYY");
+  }
+});
 
 new Vue({
   router,

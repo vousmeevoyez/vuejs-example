@@ -7,6 +7,7 @@
             <h4>Your Schedule</h4>
           </div>
           <el-table
+            :loading="loading"
             :data="quests"
             style="width: 100%"
             stripe
@@ -19,12 +20,20 @@
                     label="Task"
                     prop="description"
                   ></el-table-column>
-                  <el-table-column label="Start" prop="start"></el-table-column>
-                  <el-table-column label="End" prop="end"></el-table-column>
+                  <el-table-column label="Start">
+                    <template slot-scope="scope">
+                      {{ scope.row.start | humanDate }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="End">
+                    <template slot-scope="scope">
+                      {{ scope.row.end | humanDate }}
+                    </template>
+                  </el-table-column>
                 </el-table>
               </template>
             </el-table-column>
-            <el-table-column label="Goal" prop="description">
+            <el-table-column label="Goal">
               <template slot-scope="scope">
                 <strong>{{ scope.row.description }}</strong>
               </template>

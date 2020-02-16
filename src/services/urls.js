@@ -4,5 +4,6 @@ export const urls = {
   REGISTER_USER: "users/signup",
   USER: "users/",
   USER_ROADMAP: "users/roadmap/",
-  USER_CARD: "users/card/"
+  USER_CARD: "users/card/",
+  USER_ALLOCATION: "users/task/allocation"
 };
