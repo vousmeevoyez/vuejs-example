@@ -1,0 +1,17 @@
+# Docker Compose Production Environments
+version : '3'
+services:
+  dreamgravity_web:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: deployments/Dockerfile
+    image: dreamgravity-web
+    restart: unless-stopped
+    ports:
+    - 8888:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "10"

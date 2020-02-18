@@ -1,5 +1,3 @@
-build:
-	docker build -t dreamgravity-web .
+run:
+	docker-compose up -d --build
 
-run: build
-	docker run -d --rm -p 8080:8080 dreamgravity-web
