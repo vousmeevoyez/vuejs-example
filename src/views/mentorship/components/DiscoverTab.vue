@@ -1,60 +1,127 @@
 <template>
   <el-col>
     <el-row>
-      <h1>Discover Mentor</h1>
-      <el-table :data="mentors" stripe>
-        <el-table-column prop="profile" width="200px">
-          <el-row slot-scope="{ row }">
-            <img :src="row.image" class="mentor-thumbnail" />
-          </el-row>
-        </el-table-column>
-        <el-table-column prop="name" label="Name"> </el-table-column>
-        <el-table-column prop="status" label="Status">
+      <h1>Discover Mentors</h1>
+      <el-table v-loading="loading" :data="mentors" style="width: 100%" stripe>
+        <el-table-column>
           <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.status === 'AVAILABLE' ? 'success' : 'danger'"
-              disable-transitions
-              >{{ convertToFriendlyStatus(scope.row.status) }}</el-tag
-            >
+            <div class="image-cropper">
+              <img :src="getImage(scope.row.image)" />
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Name">
+          <template slot-scope="scope">
+            {{ scope.row.first_name + " " + scope.row.last_name }}
+          </template>
+        </el-table-column>
+        <el-table-column label="Occupation">
+          <template slot-scope="scope">
+            {{ scope.row.mentorprofile.occupation }}
+          </template>
+        </el-table-column>
+        <el-table-column label="Price">
+          <template slot-scope="scope">
+            ${{ scope.row.mentorprofile.rate }}
           </template>
         </el-table-column>
         <el-table-column label="Operations">
           <template slot-scope="scope">
             <el-button
               round
-              size="mediun"
-              @click="handleEdit(scope.$index, scope.row)"
-              :type="scope.row.status === 'AVAILABLE' ? 'primary' : 'disabled'"
+              size="medium"
+              @click="handleBookDialog(scope.row.id)"
+              type="primary"
               >Book</el-button
             >
           </template>
         </el-table-column>
       </el-table>
     </el-row>
+    <BookDialog
+      title="Book Schedule"
+      :loading="loading"
+      :dialog.sync="showBookDialog"
+      :categoryOptions="scheduleOptions"
+      @close="handleCloseBook"
+    />
   </el-col>
 </template>
 <script>
+import { mapActions } from "vuex";
+import BookDialog from "./BookDialog.vue";
+
 export default {
   name: "DiscoverTab",
-  props: {
-    mentors: Array
+  components: {
+    BookDialog
   },
   methods: {
-    convertToFriendlyStatus(status) {
-      let stringStatus = "Available";
-      if (status !== "AVAILABLE") {
-        stringStatus = "Not Available";
+    ...mapActions([
+      "getUsers",
+      "getSchedules",
+      "resetSchedules",
+      "triggerSuccess",
+      "triggerError"
+    ]),
+    fetchData() {
+      this.getUsers("MENTOR")
+        .then(data => {
+          this.loading = false;
+          this.mentors = this.$store.state.mentor.mentors;
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
+    },
+    getImage(url) {
+      if (url === null) {
+        return require("@/assets/images/profile.jpeg");
       }
-      return stringStatus;
+      return url;
+    },
+    handleBookDialog(mentorUserId) {
+      this.getSchedules(mentorUserId)
+        .then(data => {
+          this.showBookDialog = true;
+          this.scheduleOptions = this.$store.state.mentor.schedules;
+        })
+        .catch(error => {
+          console.log(error);
+          this.triggerError(error);
+        });
+    },
+    handleCloseBook() {
+      this.showBookDialog = false;
+      this.scheduleOptions = [];
     }
+  },
+  mounted() {
+    this.fetchData();
+  },
+  data() {
+    return {
+      loading: true,
+      showBookDialog: false,
+      mentors: [],
+      scheduleOptions: []
+    };
   }
 };
 </script>
 <style scoped>
-.mentor-thumbnail {
-  margin: 0 0 0 0;
-  height: 150px;
-  width: 150px;
+.image-cropper {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  overflow: hidden;
   border-radius: 50%;
+}
+
+img {
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
 }
 </style>

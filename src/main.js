@@ -73,6 +73,12 @@ Vue.filter("humanDate", function(value) {
   }
 });
 
+Vue.filter("humanHour", function(value) {
+  if (value) {
+    return Moment(value).format("HH:mm");
+  }
+});
+
 new Vue({
   router,
   store,

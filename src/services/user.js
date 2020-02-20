@@ -7,3 +7,10 @@ export function getUserAPI(userId) {
     method: "GET"
   });
 }
+
+export function getUsersAPI(userType) {
+  return http({
+    url: urls["USER"] + "?user_type=" + userType,
+    method: "GET"
+  });
+}

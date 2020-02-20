@@ -1,5 +1,4 @@
 import Vue from "vue";
-// import Moment from "moment";
 import { getRoadmapAPI } from "../../services";
 // import { generateRandomColor } from "../../utility/utils";
 

@@ -13,74 +13,8 @@
                   type="primary"
                   icon="el-icon-plus"
                   circle
-                  @click="dialogVisible = true"
+                  @click="showCreateCardDialog = true"
                 ></el-button>
-                <el-dialog
-                  title="Create Card"
-                  :visible.sync="dialogVisible"
-                  width="30%"
-                >
-                  <el-form
-                    :model="cardForm"
-                    ref="cardForm"
-                    :rules="cardFormRules"
-                  >
-                    <el-form-item
-                      label="Description"
-                      :label-width="cardForm.width"
-                      prop="description"
-                    >
-                      <el-input
-                        type="textarea"
-                        :rows="2"
-                        placeholder="Please input"
-                        v-model="cardForm.description"
-                      >
-                      </el-input>
-                    </el-form-item>
-                    <el-form-item
-                      label="Categories"
-                      :label-width="cardForm.width"
-                      prop="taskId"
-                    >
-                      <el-select
-                        v-model="cardForm.taskId"
-                        placeholder="Select Category"
-                        style="width:100%"
-                      >
-                        <el-option
-                          v-for="item in categoryOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value"
-                        >
-                        </el-option>
-                      </el-select>
-                    </el-form-item>
-                    <el-form-item
-                      label="Due Date"
-                      :label-width="cardForm.width"
-                      prop="dueDate"
-                    >
-                      <el-date-picker
-                        v-model="cardForm.dueDate"
-                        type="date"
-                        placeholder="Pick a Due Date"
-                        style="width:100%"
-                      >
-                      </el-date-picker>
-                    </el-form-item>
-                  </el-form>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">Cancel</el-button>
-                    <el-button
-                      :loading="loading"
-                      type="primary"
-                      @click.native.prevent="handleCreateCard('b')"
-                      >Confirm</el-button
-                    >
-                  </span>
-                </el-dialog>
               </el-col>
             </el-row>
           </div>
@@ -170,15 +104,26 @@
         </el-card>
       </el-col>
     </el-row>
+    <CreateCardDialog
+      title="Create Backlog"
+      :categoryOptions="categoryOptions"
+      :loading="loading"
+      :dialog.sync="showCreateCardDialog"
+      @submit="handleCreateCard"
+      @close="handleCloseCard"
+    />
   </el-col>
 </template>
 <script>
 import { mapActions } from "vuex";
 import draggable from "vuedraggable";
 import CardItem from "@/components/CardItem.vue";
+import CreateCardDialog from "./CreateCardDialog.vue";
+
 export default {
   name: "WorkflowTab",
   components: {
+    CreateCardDialog,
     CardItem,
     draggable
   },
@@ -214,24 +159,19 @@ export default {
       }
       return result;
     },
-    handleCreateCard(status) {
-      this.$refs.cardForm.validate(valid => {
-        if (valid) {
-          this.loading = true;
-          this.cardForm.status = status;
-          this.createCard(this.cardForm)
-            .then(data => {
-              this.loading = false;
-              this.triggerSuccess("Card successfully created");
-              this.fetchData();
-              this.$refs.cardForm.resetFields();
-              this.dialogVisible = false;
-            })
-            .catch(({ error }) => {
-              this.triggerError(error);
-            });
-        }
-      });
+    handleCreateCard(cardInfo) {
+      this.loading = true;
+      cardInfo.status = "b";
+      this.createCard(cardInfo)
+        .then(data => {
+          this.loading = false;
+          this.triggerSuccess("Card successfully created");
+          this.fetchData();
+          this.showCreateCardDialog = false;
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
     },
     handleDeleteCard(cardInfo) {
       this.deleteCard(cardInfo.id)
@@ -242,6 +182,9 @@ export default {
         .catch(({ error }) => {
           this.triggerError(error);
         });
+    },
+    handleCloseCard() {
+      this.showCreateCardDialog = false;
     }
   },
   mounted() {
@@ -311,42 +254,8 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
       loading: false,
-      cardForm: {
-        description: "",
-        taskId: "",
-        dueDate: "",
-        status: ""
-      },
-      cardFormRules: {
-        description: [
-          {
-            required: true,
-            message: "Description is required",
-            trigger: "change"
-          },
-          {
-            min: 5,
-            message: "minimal 5 letter",
-            trigger: "blur"
-          }
-        ],
-        taskId: [
-          {
-            required: true,
-            message: "Category is required",
-            trigger: "change"
-          }
-        ],
-        dueDate: [
-          {
-            required: true,
-            message: "Due Date is required",
-            trigger: "change"
-          }
-        ]
-      }
+      showCreateCardDialog: false
     };
   }
 };

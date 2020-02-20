@@ -1,5 +1,4 @@
 import Vue from "vue";
-// import Moment from "moment";
 import {
   getAllocationAPI,
   getCardAPI,
@@ -107,8 +106,8 @@ export const actions = {
           commit("SET_LOCAL_CARDS", data.results);
           resolve(data);
         })
-        .catch(({ response }) => {
-          reject(response.data);
+        .catch(error => {
+          console.log(error);
         });
     });
   },

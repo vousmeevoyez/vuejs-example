@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { getUserAPI } from "../../services";
+import { getUserAPI, getUsersAPI } from "../../services";
 
 export const state = {
   userId: "",
@@ -56,6 +56,18 @@ export const actions = {
           commit("SET_DREAM_URL", data.dream.url);
           // set roadmap id
           commit("SET_ROADMAP_ID", data.roadmap.id);
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
+  },
+  getUsers({ commit }, userType) {
+    return new Promise((resolve, reject) => {
+      getUsersAPI(userType)
+        .then(({ data }) => {
+          commit("SET_MENTORS", data.results);
           resolve(data);
         })
         .catch(({ response }) => {

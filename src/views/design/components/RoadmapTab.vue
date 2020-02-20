@@ -7,8 +7,8 @@
             <h4>Your Schedule</h4>
           </div>
           <el-table
-            :loading="loading"
-            :data="quests"
+            v-loading="loading"
+            :data="dream.quests"
             style="width: 100%"
             stripe
             :row-class-name="questRowName"
@@ -44,7 +44,7 @@
       <el-row>
         <el-col>
           <vc-calendar
-            :attributes="tasks"
+            :attributes="dream.tasks"
             :columns="layout.columns"
             :rows="layout.rows"
             :is-expanded="layout.isExpanded"
@@ -55,11 +55,15 @@
   </el-container>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "RoadmapTab",
-  props: {
-    quests: Array,
-    tasks: Array
+  data() {
+    return {
+      loading: true,
+      dream: this.$store.state.dream
+    };
   },
   computed: {
     layout() {
@@ -86,9 +90,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["getUserRoadmap", "triggerError"]),
     questRowName({ row, rowIndex }) {
       return "warning-row";
     }
+  },
+  mounted() {
+    this.getUserRoadmap()
+      .then(data => {
+        this.loading = false;
+      })
+      .catch(({ error }) => {
+        this.triggerError(error);
+      });
   }
 };
 </script>

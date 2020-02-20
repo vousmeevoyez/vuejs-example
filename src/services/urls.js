@@ -7,5 +7,6 @@ export const urls = {
   USER_CARD: "users/card/",
   USER_ALLOCATION: "users/task/allocation",
   USER_BULK_PATCH_CARDS: "users/card/bulk",
-  SCHEDULES: "mentorships/schedule/"
+  SCHEDULE: "mentorships/schedule/",
+  APPOINTMENT: "mentorships/appointment/"
 };
