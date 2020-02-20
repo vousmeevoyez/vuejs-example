@@ -97,7 +97,9 @@ export default {
       this.showBookDialog = false;
       this.scheduleOptions = [];
     },
-    handleBook(bookInfo) {}
+    handleBook(bookInfo) {
+      console.log(bookInfo);
+    }
   },
   mounted() {
     this.fetchData();

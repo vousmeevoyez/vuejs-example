@@ -1,7 +1,6 @@
 <template>
   <el-col>
     <el-row>
-      {{ allocation }}
       <el-col :span="12">
         <el-row justify="center">
           <h1>Actual</h1>
@@ -28,7 +27,13 @@
   </el-col>
 </template>
 <script>
+import Vue from "vue";
+import VueApexCharts from "vue-apexcharts";
 import { mapActions } from "vuex";
+
+Vue.use(VueApexCharts);
+Vue.component("apexchart", VueApexCharts);
+
 export default {
   name: "AllocationTab",
   methods: {

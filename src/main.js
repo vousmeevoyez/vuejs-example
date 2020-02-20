@@ -7,9 +7,6 @@ import ElementUI from "element-ui";
 import elementLocale from "element-ui/lib/locale/lang/en";
 import "@/assets/css/element-variables.scss";
 // external
-import VCalendar from "v-calendar";
-import VueApexCharts from "vue-apexcharts";
-import VueFriendlyIframe from "vue-friendly-iframe";
 import VueCookies from "vue-cookies";
 import Moment from "moment";
 
@@ -22,15 +19,9 @@ import i18n from "@/i18n";
 import Base from "@/layout/Base.vue";
 
 Vue.use(ElementUI, { locale: elementLocale });
-Vue.use(VueApexCharts);
-Vue.use(VueFriendlyIframe);
-Vue.use(VCalendar, {
-  componentPrefix: "vc"
-});
 Vue.use(VueCookies);
 Vue.$cookies.config("30MIN");
 
-Vue.component("apexchart", VueApexCharts);
 Vue.component("base-layout", Base);
 // component registration
 // using this technique we dont need to import comopnent inside components because it automatically imported

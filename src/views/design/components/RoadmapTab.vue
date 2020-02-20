@@ -55,7 +55,13 @@
   </el-container>
 </template>
 <script>
+import Vue from "vue";
+import VCalendar from "v-calendar";
 import { mapActions } from "vuex";
+
+Vue.use(VCalendar, {
+  componentPrefix: "vc"
+});
 
 export default {
   name: "RoadmapTab",
