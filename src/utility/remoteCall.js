@@ -1,5 +1,5 @@
-import Vue from "vue";
 import axios from "axios";
+import store from "../store";
 import { urls } from "../services/urls";
 
 const http = axios.create({
@@ -9,8 +9,8 @@ const http = axios.create({
 
 http.interceptors.request.use(
   config => {
-    if (Vue.$cookies.isKey("accessToken")) {
-      const accessToken = Vue.$cookies.get("accessToken");
+    const accessToken = store.getters["accessToken"];
+    if (accessToken !== null) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
     // config.headers["Access-Control-Allow-Origin"] = "*";

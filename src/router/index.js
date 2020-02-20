@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "../store";
 import Login from "@/views/login/Login.vue";
 
 Vue.use(VueRouter);
@@ -81,7 +82,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.auth)) {
-    if (!Vue.$cookies.isKey("accessToken")) {
+    if (!store.getters["accessToken"]) {
       next({
         path: "/login",
         params: { nextUrl: to.fullPath }

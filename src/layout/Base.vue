@@ -13,7 +13,6 @@
   </el-container>
 </template>
 <script>
-import Vue from "vue";
 import { mapActions } from "vuex";
 import Header from "@/components/Header.vue";
 import Navbar from "@/components/Navbar.vue";
@@ -41,7 +40,7 @@ export default {
     }
   },
   mounted() {
-    const userId = Vue.$cookies.get("userId");
+    const userId = this.$store.state.user.userId;
     this.getUserInfo(userId)
       .then(data => {})
       .catch(({ error }) => {

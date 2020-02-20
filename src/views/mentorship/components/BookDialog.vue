@@ -75,7 +75,7 @@ export default {
       // emit delete to parent
       this.$refs.bookForm.validate(valid => {
         if (valid) {
-          this.$emit("submit", this.cardForm);
+          this.$emit("submit", this.bookForm);
           this.$refs.bookForm.resetFields();
         }
       });

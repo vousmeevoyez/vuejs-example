@@ -1,6 +1,5 @@
 import Vue from "vue";
 import { getRoadmapAPI } from "../../services";
-// import { generateRandomColor } from "../../utility/utils";
 
 export const state = {
   dreamId: null,
@@ -12,7 +11,13 @@ export const state = {
 
 export const getters = {
   dreamId: state => state.dreamId,
-  roadmapId: state => state.roadmapId,
+  roadmapId: state => {
+    let currentRoadmapId = state.roadmapId;
+    if (currentRoadmapId === null) {
+      currentRoadmapId = Vue.$cookies.get("roadmapId");
+    }
+    return currentRoadmapId;
+  },
   url: state => state.url,
   quests: state => state.quests,
   tasks: state => state.tasks
@@ -57,8 +62,8 @@ export const mutations = {
 };
 
 export const actions = {
-  getUserRoadmap({ commit }) {
-    const roadmapId = Vue.$cookies.get("roadmapId");
+  getUserRoadmap({ commit, state }) {
+    const roadmapId = state.roadmapId;
     return new Promise((resolve, reject) => {
       getRoadmapAPI(roadmapId)
         .then(({ data }) => {

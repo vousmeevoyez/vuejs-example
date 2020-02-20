@@ -1,13 +1,20 @@
-import { getSchedulesAPI } from "../../services";
+import Vue from "vue";
+import {
+  getSchedulesAPI,
+  getAppointmentsAPI,
+  createAppointmentAPI
+} from "../../services";
 
 export const state = {
   mentors: [],
-  schedules: []
+  schedules: [],
+  appointments: []
 };
 
 export const getters = {
   schedules: state => state.schedules,
-  mentors: state => state.mentors
+  mentors: state => state.mentors,
+  appointments: state => state.appointments
 };
 
 export const mutations = {
@@ -24,6 +31,9 @@ export const mutations = {
   },
   SET_MENTORS: (state, mentors) => {
     state.mentors = mentors;
+  },
+  SET_APPOINTMENTS: (state, appointments) => {
+    state.appointments = appointments;
   }
 };
 
@@ -40,7 +50,28 @@ export const actions = {
         });
     });
   },
-  resetSchedules({ commit }) {
-    commit("SET_SCHEDULES", []);
+  getAppointmentsAPI({ commit }, userId) {
+    return new Promise((resolve, reject) => {
+      getAppointmentsAPI(userId)
+        .then(({ data }) => {
+          commit("SET_SCHEDULES", data.results);
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
+  },
+  createAppointment({ commit }, scheduleId) {
+    return new Promise((resolve, reject) => {
+      const userId = Vue.$cookies.get("userId");
+      createAppointmentAPI(userId, scheduleId)
+        .then(({ data }) => {
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
   }
 };

@@ -1,15 +1,20 @@
 // AUTH STATE
-//
 import Vue from "vue";
 import { fetchTokenAPI, registerUserAPI } from "../../services";
 import { parseJwt, convertFullNameToFirstLastName } from "../../utility/utils";
 
 export const state = {
-  accessToken: ""
+  accessToken: null
 };
 
 export const getters = {
-  accessToken: state => state.accessToken
+  accessToken: state => {
+    let currentAccessToken = state.accessToken;
+    if (currentAccessToken === null) {
+      currentAccessToken = Vue.$cookies.get("accessToken");
+    }
+    return currentAccessToken;
+  }
 };
 
 export const mutations = {

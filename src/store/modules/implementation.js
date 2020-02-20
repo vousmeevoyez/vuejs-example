@@ -1,4 +1,3 @@
-import Vue from "vue";
 import {
   getAllocationAPI,
   getCardAPI,
@@ -98,8 +97,8 @@ export const mutations = {
 };
 
 export const actions = {
-  getUserCard({ commit }) {
-    const userId = Vue.$cookies.get("userId");
+  getUserCard({ commit, rootState }) {
+    const userId = rootState.user.userId;
     return new Promise((resolve, reject) => {
       getCardAPI(userId)
         .then(({ data }) => {
@@ -134,8 +133,8 @@ export const actions = {
         });
     });
   },
-  getUserAllocation({ commit }) {
-    const userId = Vue.$cookies.get("userId");
+  getUserAllocation({ commit, rootState }) {
+    const userId = rootState.user.userId;
     return new Promise((resolve, reject) => {
       getAllocationAPI(userId)
         .then(({ data }) => {

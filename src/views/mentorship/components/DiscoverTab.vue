@@ -43,6 +43,7 @@
       :loading="loading"
       :dialog.sync="showBookDialog"
       :categoryOptions="scheduleOptions"
+      @submit="handleCloseBook"
       @close="handleCloseBook"
     />
   </el-col>
@@ -60,6 +61,7 @@ export default {
     ...mapActions([
       "getUsers",
       "getSchedules",
+      "createAppointment",
       "resetSchedules",
       "triggerSuccess",
       "triggerError"
@@ -94,7 +96,8 @@ export default {
     handleCloseBook() {
       this.showBookDialog = false;
       this.scheduleOptions = [];
-    }
+    },
+    handleBook(bookInfo) {}
   },
   mounted() {
     this.fetchData();
