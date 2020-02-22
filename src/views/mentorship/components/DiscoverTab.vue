@@ -97,7 +97,18 @@ export default {
       this.scheduleOptions = [];
     },
     handleBook(bookInfo) {
-      console.log(bookInfo);
+      const scheduleId = bookInfo.scheduleId;
+      const userId = this.$store.getters["userId"];
+      this.loading = true;
+      this.createAppointment({ scheduleId: scheduleId, userId: userId })
+        .then(data => {
+          this.loading = false;
+          this.showBookDialog = false;
+          this.triggerSuccess("Appointment successfully created...");
+        })
+        .catch(error => {
+          this.triggerError(error);
+        });
     }
   },
   mounted() {

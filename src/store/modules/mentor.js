@@ -1,8 +1,8 @@
-import Vue from "vue";
 import {
   getSchedulesAPI,
   getAppointmentsAPI,
-  createAppointmentAPI
+  createAppointmentAPI,
+  deleteAppointmentAPI
 } from "../../services";
 
 export const state = {
@@ -62,10 +62,38 @@ export const actions = {
         });
     });
   },
-  createAppointment({ commit }, scheduleId) {
+  createAppointment({ commit }, appointmentInfo) {
     return new Promise((resolve, reject) => {
-      const userId = Vue.$cookies.get("userId");
-      createAppointmentAPI(userId, scheduleId)
+      // because backend only accept array we do append
+      let userIds = [];
+      userIds.push(appointmentInfo.userId);
+
+      createAppointmentAPI(appointmentInfo.scheduleId, userIds)
+        .then(({ data }) => {
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
+  },
+  getAppointments({ commit }, userId) {
+    return new Promise((resolve, reject) => {
+      // because backend only accept array we do append
+      getAppointmentsAPI(userId)
+        .then(({ data }) => {
+          commit("SET_APPOINTMENTS", data.results);
+          resolve(data);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        });
+    });
+  },
+  deleteAppointment({ commit }, appointmentId) {
+    return new Promise((resolve, reject) => {
+      // because backend only accept array we do append
+      deleteAppointmentAPI(appointmentId)
         .then(({ data }) => {
           resolve(data);
         })

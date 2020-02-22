@@ -76,7 +76,6 @@ export default {
       this.$refs.bookForm.validate(valid => {
         if (valid) {
           this.$emit("submit", this.bookForm);
-          this.$refs.bookForm.resetFields();
         }
       });
     },

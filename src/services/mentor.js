@@ -25,3 +25,10 @@ export function getAppointmentsAPI(userId) {
     method: "GET"
   });
 }
+
+export function deleteAppointmentAPI(appointmentId) {
+  return http({
+    url: urls["APPOINTMENT"] + appointmentId + "/",
+    method: "DELETE"
+  });
+}

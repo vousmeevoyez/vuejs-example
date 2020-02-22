@@ -7,9 +7,26 @@
         </el-col>
       </el-row>
       <el-row style="margin-top: 15px;">
-        <!--<el-col>
-          <Backlog :backlogs="backlogs" />
-				</el-col>-->
+        <el-col :span="12">
+          <el-card>
+            <h3>DreamDiagnostic</h3>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card>
+            <h3>DreamGPS Design</h3>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card>
+            <h3>DreamGPS Implementation</h3>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card>
+            <h3>Power Mentorship</h3>
+          </el-card>
+        </el-col>
       </el-row>
     </el-col>
   </el-container>
@@ -40,4 +57,3 @@ export default {
   methods: {}
 };
 </script>
-<style lang="scss"></style>
