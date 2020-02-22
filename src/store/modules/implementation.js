@@ -39,34 +39,17 @@ export const mutations = {
     }
     state.categories = result;
   },
-  SET_LOCAL_CARDS: (state, cards) => {
-    state.backlogs = filterCards(cards, "b");
-    state.todos = filterCards(cards, "t");
-    state.doings = filterCards(cards, "dg");
-    state.dones = filterCards(cards, "d");
-  },
-  SET_SERVER_CARDS: (state, cardInfo) => {
-    // patch multiple cards to server
-    let cards = cardInfo.cards;
-    const cardIds = [];
-    for (let card of cards) {
-      cardIds.push(card.id);
-    }
-    bulkPatchCardAPI(cardIds, cardInfo.status)
-      .then(data => {})
-      .catch(({ response }) => {});
-  },
   SET_BACKLOGS: (state, cards) => {
-    state.backlogs = cards;
+    state.backlogs = filterCards(cards, "b");
   },
   SET_TODOS: (state, cards) => {
-    state.todos = cards;
+    state.todos = filterCards(cards, "t");
   },
   SET_DOINGS: (state, cards) => {
-    state.doings = cards;
+    state.doings = filterCards(cards, "dg");
   },
   SET_DONES: (state, cards) => {
-    state.dones = cards;
+    state.dones = filterCards(cards, "d");
   },
   SET_ALLOCATION: (state, allocations) => {
     // mutate the data according to library format
@@ -97,12 +80,14 @@ export const mutations = {
 };
 
 export const actions = {
-  getUserCard({ commit, rootState }) {
-    const userId = rootState.user.userId;
+  getUserCard({ commit }, userId) {
     return new Promise((resolve, reject) => {
       getCardAPI(userId)
         .then(({ data }) => {
-          commit("SET_LOCAL_CARDS", data.results);
+          commit("SET_BACKLOGS", data.results);
+          commit("SET_TODOS", data.results);
+          commit("SET_DOINGS", data.results);
+          commit("SET_DONES", data.results);
           resolve(data);
         })
         .catch(error => {
@@ -133,8 +118,7 @@ export const actions = {
         });
     });
   },
-  getUserAllocation({ commit, rootState }) {
-    const userId = rootState.user.userId;
+  getUserAllocation({ commit }, userId) {
     return new Promise((resolve, reject) => {
       getAllocationAPI(userId)
         .then(({ data }) => {
@@ -143,6 +127,40 @@ export const actions = {
         })
         .catch(({ response }) => {
           reject(response.data);
+        });
+    });
+  },
+  updateCards({ commit }, cardInfo) {
+    return new Promise((resolve, reject) => {
+      let cards = cardInfo.cards;
+
+      // convert attribute to status
+      let status = "b";
+      const attribute = cardInfo.attribute;
+      if (attribute === "TODOS") {
+        status = "t";
+      } else if (attribute === "DOINGS") {
+        status = "dg";
+      } else if (attribute === "DONES") {
+        status = "d";
+      }
+      // update acrd with right status
+      const cardIds = [];
+      for (let card of cards) {
+        // extract only ids of every card
+        card.status = status;
+        cardIds.push(card.id);
+      }
+
+      bulkPatchCardAPI(cardIds, status)
+        .then(data => {
+          resolve(cards);
+        })
+        .catch(({ response }) => {
+          reject(response.data);
+        })
+        .finally(() => {
+          commit("SET_" + attribute, cards);
         });
     });
   }

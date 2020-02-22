@@ -25,13 +25,9 @@ export default {
   },
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
+      user: this.$store.state.user
     };
-  },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    }
   },
   methods: {
     ...mapActions(["getUserInfo", "triggerError"]),
@@ -40,7 +36,7 @@ export default {
     }
   },
   mounted() {
-    const userId = this.$store.state.user.userId;
+    const userId = this.$store.getters["userId"];
     this.getUserInfo(userId)
       .then(data => {})
       .catch(({ error }) => {

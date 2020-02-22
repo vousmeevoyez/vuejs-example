@@ -11,13 +11,7 @@ export const state = {
 
 export const getters = {
   dreamId: state => state.dreamId,
-  roadmapId: state => {
-    let currentRoadmapId = state.roadmapId;
-    if (currentRoadmapId === null) {
-      currentRoadmapId = Vue.$cookies.get("roadmapId");
-    }
-    return currentRoadmapId;
-  },
+  roadmapId: state => Vue.$cookies.get("roadmapId"),
   url: state => state.url,
   quests: state => state.quests,
   tasks: state => state.tasks
@@ -62,8 +56,7 @@ export const mutations = {
 };
 
 export const actions = {
-  getUserRoadmap({ commit, state }) {
-    const roadmapId = state.roadmapId;
+  getUserRoadmap({ commit }, roadmapId) {
     return new Promise((resolve, reject) => {
       getRoadmapAPI(roadmapId)
         .then(({ data }) => {

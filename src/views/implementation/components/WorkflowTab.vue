@@ -133,17 +133,19 @@ export default {
       "getUserRoadmap",
       "createCard",
       "deleteCard",
-      "patchCard",
+      "updateCards",
       "triggerSuccess",
       "triggerError"
     ]),
     fetchData() {
-      this.getUserCard()
+      const userId = this.$store.getters["userId"];
+      this.getUserCard(userId)
         .then(data => {})
         .catch(({ error }) => {
           this.triggerError(error);
         });
-      this.getUserRoadmap()
+      const roadmapId = this.$store.getters["roadmapId"];
+      this.getUserRoadmap(roadmapId)
         .then(data => {})
         .catch(({ error }) => {
           this.triggerError(error);
@@ -192,63 +194,53 @@ export default {
   },
   computed: {
     categories() {
-      return this.convertToColorCategories(
-        this.$store.state.implementation.categories
-      );
+      return this.convertToColorCategories(this.$store.getters["categories"]);
     },
     categoryOptions() {
-      return this.$store.state.implementation.categories;
+      return this.$store.getters["categories"];
     },
     backlogs: {
       get() {
-        return this.$store.state.implementation.backlogs;
+        return this.$store.getters["backlogs"];
       },
       set(value) {
-        this.$store.commit("SET_SERVER_CARDS", {
+        this.updateCards({
           cards: value,
-          attribute: "backlogs",
-          status: "b"
-        });
-        this.$store.commit("SET_BACKLOGS", value);
+          attribute: "BACKLOGS"
+        }).then(data => {});
       }
     },
     todos: {
       get() {
-        return this.$store.state.implementation.todos;
+        return this.$store.getters["todos"];
       },
       set(value) {
-        this.$store.commit("SET_SERVER_CARDS", {
+        this.updateCards({
           cards: value,
-          attribute: "todos",
-          status: "t"
-        });
-        this.$store.commit("SET_TODOS", value);
+          attribute: "TODOS"
+        }).then(data => {});
       }
     },
     doings: {
       get() {
-        return this.$store.state.implementation.doings;
+        return this.$store.getters["doings"];
       },
       set(value) {
-        this.$store.commit("SET_SERVER_CARDS", {
+        this.updateCards({
           cards: value,
-          attribute: "doings",
-          status: "dg"
-        });
-        this.$store.commit("SET_DOINGS", value);
+          attribute: "DOINGS"
+        }).then(data => {});
       }
     },
     dones: {
       get() {
-        return this.$store.state.implementation.dones;
+        return this.$store.getters["dones"];
       },
       set(value) {
-        this.$store.commit("SET_SERVER_CARDS", {
+        this.updateCards({
           cards: value,
-          attribute: "dones",
-          status: "d"
-        });
-        this.$store.commit("SET_DONES", value);
+          attribute: "DONES"
+        }).then(data => {});
       }
     }
   },

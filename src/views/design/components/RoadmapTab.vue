@@ -102,7 +102,8 @@ export default {
     }
   },
   mounted() {
-    this.getUserRoadmap()
+    const roadmapId = this.$store.getters["roadmapId"];
+    this.getUserRoadmap(roadmapId)
       .then(data => {
         this.loading = false;
       })

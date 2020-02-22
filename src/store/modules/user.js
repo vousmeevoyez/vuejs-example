@@ -10,14 +10,7 @@ export const state = {
 };
 
 export const getters = {
-  userId: state => {
-    let currentUserId = state.userId;
-    if (currentUserId === "") {
-      // try fetch from cookies
-      currentUserId = Vue.$cookies.get("userId");
-    }
-    return currentUserId;
-  },
+  userId: state => Vue.$cookies.get("userId"),
   email: state => state.email,
   firstName: state => state.firstName,
   lastName: state => state.lastName,

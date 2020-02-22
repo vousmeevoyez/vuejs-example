@@ -39,7 +39,8 @@ export default {
   methods: {
     ...mapActions(["getUserAllocation", "triggerError"]),
     fetchData() {
-      this.getUserAllocation()
+      const userId = this.$store.getters["userId"];
+      this.getUserAllocation(userId)
         .then(data => {
           const allocation = this.$store.state.implementation.allocation;
 

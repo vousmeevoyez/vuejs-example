@@ -9,10 +9,10 @@
       <el-form-item
         label="Schedule"
         :label-width="bookForm.width"
-        prop="schedule_id"
+        prop="scheduleId"
       >
         <el-select
-          v-model="bookForm.schedule_id"
+          v-model="bookForm.scheduleId"
           placeholder="Select Schedule"
           style="width:100%"
         >
@@ -57,10 +57,10 @@ export default {
     return {
       dialogVisible: false,
       bookForm: {
-        schedule_id: ""
+        scheduleId: ""
       },
       bookFormRules: {
-        schedule_id: [
+        scheduleId: [
           {
             required: true,
             message: "Schedule is required",
@@ -71,7 +71,7 @@ export default {
     };
   },
   methods: {
-    handleSubmit(card) {
+    handleSubmit() {
       // emit delete to parent
       this.$refs.bookForm.validate(valid => {
         if (valid) {

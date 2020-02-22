@@ -43,7 +43,7 @@
       :loading="loading"
       :dialog.sync="showBookDialog"
       :categoryOptions="scheduleOptions"
-      @submit="handleCloseBook"
+      @submit="handleBook"
       @close="handleCloseBook"
     />
   </el-col>
@@ -62,7 +62,6 @@ export default {
       "getUsers",
       "getSchedules",
       "createAppointment",
-      "resetSchedules",
       "triggerSuccess",
       "triggerError"
     ]),
