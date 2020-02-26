@@ -7,26 +7,48 @@
         </el-col>
       </el-row>
       <el-row style="margin-top: 15px;">
-        <el-col :span="12">
-          <el-card>
-            <h3>DreamDiagnostic</h3>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card>
-            <h3>DreamGPS Design</h3>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card>
-            <h3>DreamGPS Implementation</h3>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card>
-            <h3>Power Mentorship</h3>
-          </el-card>
-        </el-col>
+        <router-link to="/diagnostic"
+          ><el-col :span="12">
+            <el-card>
+              <h2>
+                Dream<span style="color:rgb(16,225,194);">Diagnostic</span>
+              </h2>
+              <img src="@/assets/images/dg-logo.png" style="width:150px;" />
+            </el-card>
+          </el-col>
+        </router-link>
+        <router-link to="/design">
+          <el-col :span="12">
+            <el-card>
+              <h2>
+                Dream<span style="color:rgb(16,225,194);">GPS</span
+                ><span style="font-size:18px"> Design</span>
+              </h2>
+              <img src="@/assets/images/dg-logo.png" style="width:150px;" />
+            </el-card>
+          </el-col>
+        </router-link>
+        <router-link to="/implementation">
+          <el-col :span="12">
+            <el-card>
+              <h2>
+                Dream<span style="color:rgb(16,225,194);">GPS</span
+                ><span style="font-size:18px"> Implementation</span>
+              </h2>
+              <img src="@/assets/images/dg-logo.png" style="width:150px;" />
+            </el-card>
+          </el-col>
+        </router-link>
+        <router-link to="/mentorship">
+          <el-col :span="12">
+            <el-card>
+              <h2>
+                Power<span style="color:rgb(16,225,194);">Mentorship</span>
+              </h2>
+              <img src="@/assets/images/dg-logo.png" style="width:150px;" />
+            </el-card>
+          </el-col>
+        </router-link>
       </el-row>
     </el-col>
   </el-container>

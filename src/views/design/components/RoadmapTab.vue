@@ -11,11 +11,19 @@
             :data="dream.quests"
             style="width: 100%"
             stripe
-            :row-class-name="questRowName"
           >
             <el-table-column type="expand">
               <template slot-scope="props">
-                <el-table :data="props.row.tasks" stripe>
+                <el-table
+                  :data="props.row.tasks"
+                  style="width: 100%"
+                  :row-class-name="tableRowClassName"
+                >
+                  <el-table-column label="Legend" prop="color" width="100px">
+                    <template slot-scope="scope">
+                      <div :style="markTask(scope.row.color)"></div>
+                    </template>
+                  </el-table-column>
                   <el-table-column
                     label="Task"
                     prop="description"
@@ -97,8 +105,9 @@ export default {
   },
   methods: {
     ...mapActions(["getUserRoadmap", "triggerError"]),
-    questRowName({ row, rowIndex }) {
-      return "warning-row";
+    markTask(color) {
+      let style = `width: 20px; height: 20px; background-color: ${color}`;
+      return style;
     }
   },
   mounted() {
@@ -113,12 +122,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.el-table .warning-row {
-  background: oldlace;
-}
-
-.el-table .success-row {
-  background: #f0f9eb;
-}
-</style>

@@ -41,6 +41,22 @@ export function generateRandomColor() {
   return pallete[Math.floor(Math.random() * pallete.length)];
 }
 
+export function colorToHex(color) {
+  const pallete = {
+    gray: "#808080",
+    red: "#ff0000",
+    orange: "#ffa500",
+    yellow: "#ffff00",
+    green: "#008000",
+    teal: "#008080",
+    blue: "#0000ff",
+    indigo: "#4b0082",
+    purple: "#800080",
+    pink: "#ffc0cb"
+  };
+  return pallete[color];
+}
+
 export function filterCards(cards, status) {
   const filterCards = cards.filter(card => {
     return card.status === status;

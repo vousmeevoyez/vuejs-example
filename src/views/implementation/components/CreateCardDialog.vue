@@ -103,13 +103,6 @@ export default {
             message: "Category is required",
             trigger: "change"
           }
-        ],
-        dueDate: [
-          {
-            required: true,
-            message: "Due Date is required",
-            trigger: "change"
-          }
         ]
       }
     };

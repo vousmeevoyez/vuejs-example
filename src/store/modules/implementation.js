@@ -57,13 +57,17 @@ export const mutations = {
     let targets = [];
     let labels = [];
     let colors = [];
+    // first we need to sum no of card first
+    const totalCards = allocations
+      .map(item => item.no_of_cards)
+      .reduce((prev, next) => prev + next);
+
     for (const allocation of allocations) {
-      const noOfCards = allocation.no_of_cards;
       const noOfDoneCards = allocation.no_of_done_cards;
       let actual = 0;
       // prevent zero division
-      if (noOfCards > 0) {
-        actual = noOfDoneCards / noOfCards;
+      if (totalCards > 0) {
+        actual = noOfDoneCards / totalCards;
       }
       labels.push(allocation.description);
       targets.push(allocation.target);
@@ -98,7 +102,7 @@ export const actions = {
   createCard({ commit }, formData) {
     return new Promise((resolve, reject) => {
       const { taskId, description, dueDate, status } = formData;
-      createCardAPI(taskId, description, dueDate, status)
+      createCardAPI(taskId, description, status, dueDate)
         .then(({ data }) => {
           resolve(data);
         })

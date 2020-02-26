@@ -14,7 +14,7 @@
       </el-col>
 		</el-row>-->
     <el-row type="flex" justify="center">
-      <el-col v-if="'due_date' in data">
+      <el-col v-if="data.due_date">
         <el-button type="plain" size="small" round>{{
           data.due_date | humanDate
         }}</el-button>

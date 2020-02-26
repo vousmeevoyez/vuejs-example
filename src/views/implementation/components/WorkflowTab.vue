@@ -1,92 +1,30 @@
 <template>
   <el-col>
     <el-row>
-      <el-col :span="6" style="padding-right:10px;">
-        <el-card>
-          <div slot="header">
-            <el-row style="display:flex; align-items:center;">
-              <el-col :span="12">
-                <h1>Backlog</h1>
-              </el-col>
-              <el-col :span="12">
-                <el-button
-                  type="primary"
-                  icon="el-icon-plus"
-                  circle
-                  @click="showCreateCardDialog = true"
-                ></el-button>
-              </el-col>
-            </el-row>
-          </div>
-          <draggable v-model="backlogs" group="card">
-            <CardItem
-              v-for="backlog in backlogs"
-              :key="backlog.id"
-              card_key="task"
-              :data="backlog"
-              :colors="categories"
-              @deletion="handleDeleteCard"
-            />
-          </draggable>
-        </el-card>
-      </el-col>
-      <el-col :span="6" style="padding-right:10px;">
-        <el-card>
-          <div slot="header">
-            <el-row>
-              <h1>Todo</h1>
-            </el-row>
-          </div>
-          <draggable v-model="todos" group="card">
-            <CardItem
-              v-for="todo in todos"
-              :key="todo.id"
-              card_key="task"
-              :data="todo"
-              :colors="categories"
-              @deletion="handleDeleteCard"
-            />
-          </draggable>
-        </el-card>
-      </el-col>
-      <el-col :span="6" style="padding-right:10px;">
-        <el-card>
-          <div slot="header">
-            <el-row>
-              <h1>Doing</h1>
-            </el-row>
-          </div>
-          <draggable v-model="doings" group="card">
-            <CardItem
-              v-for="doing in doings"
-              :key="doing.id"
-              card_key="task"
-              :data="doing"
-              :colors="categories"
-              @deletion="handleDeleteCard"
-            />
-          </draggable>
-        </el-card>
-      </el-col>
-      <el-col :span="6" style="padding-right:10px;">
-        <el-card>
-          <div slot="header">
-            <el-row>
-              <h1>Done</h1>
-            </el-row>
-          </div>
-          <draggable v-model="dones" group="card">
-            <CardItem
-              v-for="done in dones"
-              :key="done.id"
-              card_key="task"
-              :data="done"
-              :colors="categories"
-              @deletion="handleDeleteCard"
-            />
-          </draggable>
-        </el-card>
-      </el-col>
+      <CardBoard
+        title="Backlog"
+        :cardCategories="categories"
+        :submit="handleCreateCard"
+        :deletion="handleDeleteCard"
+      />
+      <CardBoard
+        title="Todo"
+        :cardCategories="categories"
+        :submit="handleCreateCard"
+        :deletion="handleDeleteCard"
+      />
+      <CardBoard
+        title="Doing"
+        :cardCategories="categories"
+        :submit="handleCreateCard"
+        :deletion="handleDeleteCard"
+      />
+      <CardBoard
+        title="Done"
+        :cardCategories="categories"
+        :submit="handleCreateCard"
+        :deletion="handleDeleteCard"
+      />
     </el-row>
     <el-row style="display:flex; padding-top: 10px;">
       <el-col style="display:flex; align-items:start;">
@@ -104,28 +42,16 @@
         </el-card>
       </el-col>
     </el-row>
-    <CreateCardDialog
-      title="Create Backlog"
-      :categoryOptions="categoryOptions"
-      :loading="loading"
-      :dialog.sync="showCreateCardDialog"
-      @submit="handleCreateCard"
-      @close="handleCloseCard"
-    />
   </el-col>
 </template>
 <script>
 import { mapActions } from "vuex";
-import draggable from "vuedraggable";
-import CardItem from "@/components/CardItem.vue";
-import CreateCardDialog from "./CreateCardDialog.vue";
+import CardBoard from "./CardBoard.vue";
 
 export default {
   name: "WorkflowTab",
   components: {
-    CreateCardDialog,
-    CardItem,
-    draggable
+    CardBoard
   },
   methods: {
     ...mapActions([
@@ -133,7 +59,6 @@ export default {
       "getUserRoadmap",
       "createCard",
       "deleteCard",
-      "updateCards",
       "triggerSuccess",
       "triggerError"
     ]),
@@ -169,7 +94,6 @@ export default {
           this.loading = false;
           this.triggerSuccess("Card successfully created");
           this.fetchData();
-          this.showCreateCardDialog = false;
         })
         .catch(({ error }) => {
           this.triggerError(error);
@@ -184,9 +108,6 @@ export default {
         .catch(({ error }) => {
           this.triggerError(error);
         });
-    },
-    handleCloseCard() {
-      this.showCreateCardDialog = false;
     }
   },
   mounted() {
@@ -195,59 +116,11 @@ export default {
   computed: {
     categories() {
       return this.convertToColorCategories(this.$store.getters["categories"]);
-    },
-    categoryOptions() {
-      return this.$store.getters["categories"];
-    },
-    backlogs: {
-      get() {
-        return this.$store.getters["backlogs"];
-      },
-      set(value) {
-        this.updateCards({
-          cards: value,
-          attribute: "BACKLOGS"
-        }).then(data => {});
-      }
-    },
-    todos: {
-      get() {
-        return this.$store.getters["todos"];
-      },
-      set(value) {
-        this.updateCards({
-          cards: value,
-          attribute: "TODOS"
-        }).then(data => {});
-      }
-    },
-    doings: {
-      get() {
-        return this.$store.getters["doings"];
-      },
-      set(value) {
-        this.updateCards({
-          cards: value,
-          attribute: "DOINGS"
-        }).then(data => {});
-      }
-    },
-    dones: {
-      get() {
-        return this.$store.getters["dones"];
-      },
-      set(value) {
-        this.updateCards({
-          cards: value,
-          attribute: "DONES"
-        }).then(data => {});
-      }
     }
   },
   data() {
     return {
-      loading: false,
-      showCreateCardDialog: false
+      loading: false
     };
   }
 };

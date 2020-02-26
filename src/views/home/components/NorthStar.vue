@@ -1,10 +1,12 @@
 <template>
-  <el-card>
+  <el-card class="northStarCard">
     <div slot="header">
       <h1>{{ $t("home.north_star") }}</h1>
     </div>
     <el-row>
-      <el-col> {{ northStar }} </el-col>
+      <el-col>
+        <strong>{{ northStar }}</strong>
+      </el-col>
     </el-row>
   </el-card>
 </template>
@@ -17,8 +19,11 @@ export default {
   methods: {}
 };
 </script>
-<style lang="scss" scoped>
+<style>
 .north-star {
   font-size: 2rem;
+}
+.northStarCard > .el-card__header {
+  background-color: rgb(16, 225, 194);
 }
 </style>

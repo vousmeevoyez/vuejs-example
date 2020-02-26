@@ -15,16 +15,20 @@ export function getAllocationAPI(userId) {
   });
 }
 
-export function createCardAPI(taskId, description, dueDate, status) {
+export function createCardAPI(taskId, description, status, dueDate) {
+  let data = {
+    description: description,
+    task: taskId,
+    due_date: dueDate,
+    status: status
+  };
+  if (dueDate === "") {
+    delete data.due_date;
+  }
   return http({
     url: urls["USER_CARD"],
     method: "POST",
-    data: {
-      description: description,
-      task: taskId,
-      due_date: dueDate,
-      status: status
-    }
+    data: data
   });
 }
 

@@ -30,6 +30,7 @@
 import Vue from "vue";
 import VueApexCharts from "vue-apexcharts";
 import { mapActions } from "vuex";
+import { colorToHex } from "@/utility/utils";
 
 Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
@@ -43,8 +44,10 @@ export default {
       this.getUserAllocation(userId)
         .then(data => {
           const allocation = this.$store.state.implementation.allocation;
+          const colors = allocation.colors.map(x => colorToHex(x));
 
           this.chartOptions.labels = allocation.labels;
+          this.chartOptions.colors = colors;
           this.actual.data = allocation.actuals;
           this.target.data = allocation.targets;
         })
@@ -63,7 +66,8 @@ export default {
         chart: {
           type: "donut"
         },
-        labels: []
+        labels: [],
+        colors: []
       },
       actual: {
         data: []
