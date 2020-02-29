@@ -34,6 +34,12 @@
             {{ scope.row.schedule.end | humanHour }}
           </template>
         </el-table-column>
+        <el-table-column label="Status">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.is_paid" type="success">PAID</el-tag>
+            <el-tag v-else type="danger">UNPAID</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="Operations">
           <template slot-scope="scope">
             <el-button

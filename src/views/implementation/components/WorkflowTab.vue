@@ -86,9 +86,9 @@ export default {
       }
       return result;
     },
-    handleCreateCard(cardInfo) {
+    handleCreateCard(flag, cardInfo) {
       this.loading = true;
-      cardInfo.status = "b";
+      cardInfo.status = flag;
       this.createCard(cardInfo)
         .then(data => {
           this.loading = false;

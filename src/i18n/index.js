@@ -18,6 +18,10 @@ const messages = {
     design: {
       instruction:
         "Complete Your DreamGPS Survey, if you have already completed the survey, kindly wait 7-10 days for the results to show here."
+    },
+    powermentorship: {
+      instruction:
+        "After click confirm, we will send invoice to your email <br> in order to complete your PowerMentorship"
     }
   },
   id: {}

@@ -108,11 +108,26 @@ export default {
     };
   },
   methods: {
+    convertTitletoFlag(title) {
+      let flag = "";
+      if (title.includes("Backlog")) {
+        flag = "b";
+      } else if (title.includes("Todo")) {
+        flag = "t";
+      } else if (title.includes("Doing")) {
+        flag = "dg";
+      } else {
+        flag = "d";
+      }
+      return flag;
+    },
     handleSubmit(card) {
       // emit delete to parent
       this.$refs.cardForm.validate(valid => {
         if (valid) {
-          this.$emit("submit", this.cardForm);
+          // add aditional flag here
+          const flag = this.convertTitletoFlag(this.title);
+          this.$emit("submit", flag, this.cardForm);
           this.$refs.cardForm.resetFields();
         }
       });
