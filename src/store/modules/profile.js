@@ -16,6 +16,10 @@ export const mutations = {
   },
   SET_NORTH_STAR: (state, northStar) => {
     state.northStar = northStar;
+  },
+  RESET_PROFILE: state => {
+    state.northStar = null;
+    state.profileId = null;
   }
 };
 

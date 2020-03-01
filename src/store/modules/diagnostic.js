@@ -16,6 +16,10 @@ export const mutations = {
   },
   SET_DIAGNOSTIC_URL: (state, url) => {
     state.url = url;
+  },
+  RESET_DIAGNOSTIC: state => {
+    state.url = null;
+    state.diagnosticId = null;
   }
 };
 

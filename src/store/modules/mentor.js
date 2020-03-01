@@ -34,6 +34,11 @@ export const mutations = {
   },
   SET_APPOINTMENTS: (state, appointments) => {
     state.appointments = appointments;
+  },
+  RESET_MENTOR: state => {
+    state.mentors = [];
+    state.schedules = [];
+    state.appointments = [];
   }
 };
 

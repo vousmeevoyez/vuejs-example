@@ -10,7 +10,13 @@ export const state = {
 };
 
 export const getters = {
-  userId: state => Vue.$cookies.get("userId"),
+  userId: state => {
+    let userId = state.userId;
+    if (Vue.$cookies.isKey("userId")) {
+      userId = Vue.$cookies.get("userId");
+    }
+    return userId;
+  },
   email: state => state.email,
   firstName: state => state.firstName,
   lastName: state => state.lastName,
@@ -33,6 +39,14 @@ export const mutations = {
   },
   SET_IMAGE: (state, image) => {
     state.image = image;
+  },
+  RESET_USER: state => {
+    state.userId = "";
+    Vue.$cookies.remove("userId");
+    state.email = "";
+    state.firstName = "";
+    state.lastName = "";
+    state.image = null;
   }
 };
 

@@ -9,11 +9,11 @@ export const state = {
 
 export const getters = {
   accessToken: state => {
-    let currentAccessToken = state.accessToken;
-    if (currentAccessToken === null) {
-      currentAccessToken = Vue.$cookies.get("accessToken");
+    let accessToken = state.accessToken;
+    if (Vue.$cookies.isKey("accessToken")) {
+      accessToken = Vue.$cookies.get("accessToken");
     }
-    return currentAccessToken;
+    return accessToken;
   }
 };
 
@@ -60,6 +60,12 @@ export const actions = {
   },
   logoutUser({ commit }) {
     commit("SET_ACCESS_TOKEN", "");
-    Vue.$cookies.keys().forEach(cookie => Vue.$cookies.remove(cookie));
+    Vue.$cookies.remove("accessToken");
+    commit("RESET_USER");
+    commit("RESET_DREAM");
+    commit("RESET_MENTOR");
+    commit("RESET_PROFILE");
+    commit("RESET_DIAGNOSTIC");
+    commit("RESET_IMPLEMENTATIION");
   }
 };

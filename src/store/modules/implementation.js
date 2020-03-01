@@ -80,6 +80,14 @@ export const mutations = {
       actuals: actuals,
       colors: colors
     };
+  },
+  RESET_IMPLEMENTATIION: state => {
+    state.backlogs = [];
+    state.todos = [];
+    state.doings = [];
+    state.dones = [];
+    state.categories = [];
+    state.allocation = {};
   }
 };
 

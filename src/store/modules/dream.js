@@ -11,7 +11,13 @@ export const state = {
 
 export const getters = {
   dreamId: state => state.dreamId,
-  roadmapId: state => Vue.$cookies.get("roadmapId"),
+  roadmapId: state => {
+    let roadmapId = state.roadmapId;
+    if (Vue.$cookies.isKey("roadmapId")) {
+      roadmapId = Vue.$cookies.get("roadmapId");
+    }
+    return roadmapId;
+  },
   url: state => state.url,
   quests: state => state.quests,
   tasks: state => state.tasks
@@ -52,6 +58,14 @@ export const mutations = {
       }
     }
     state.tasks = result;
+  },
+  RESET_DREAM: state => {
+    state.dreamId = null;
+    Vue.$cookies.remove("roadmapId");
+    state.url = null;
+    state.roadmapId = null;
+    state.quests = [];
+    state.tasks = [];
   }
 };
 
