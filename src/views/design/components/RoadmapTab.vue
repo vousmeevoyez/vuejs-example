@@ -1,56 +1,56 @@
 <template>
   <el-container>
     <el-col>
-      <el-row style="padding-bottom:15px;">
-        <el-card>
-          <div slot="header">
-            <h4>Your Schedule</h4>
-          </div>
-          <el-table
-            v-loading="loading"
-            :data="dream.quests"
-            style="width: 100%"
-            stripe
-          >
-            <el-table-column type="expand">
-              <template slot-scope="props">
-                <el-table
-                  :data="props.row.tasks"
-                  style="width: 100%"
-                  :row-class-name="tableRowClassName"
-                >
-                  <el-table-column label="Legend" prop="color" width="100px">
-                    <template slot-scope="scope">
-                      <div :style="markTask(scope.row.color)"></div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="Task"
-                    prop="description"
-                  ></el-table-column>
-                  <el-table-column label="Start">
-                    <template slot-scope="scope">
-                      {{ scope.row.start | humanDate }}
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="End">
-                    <template slot-scope="scope">
-                      {{ scope.row.end | humanDate }}
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </template>
-            </el-table-column>
-            <el-table-column label="Goal">
-              <template slot-scope="scope">
-                <strong>{{ scope.row.description }}</strong>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
-      </el-row>
       <el-row>
-        <el-col>
+        <el-col :span="12" style="padding-right:10px;">
+          <el-card>
+            <div slot="header">
+              <h4>Your Schedule</h4>
+            </div>
+            <el-table
+              v-loading="loading"
+              :data="dream.quests"
+              style="width: 100%"
+              stripe
+            >
+              <el-table-column type="expand">
+                <template slot-scope="props">
+                  <el-table
+                    :data="props.row.tasks"
+                    style="width: 100%"
+                    :row-class-name="tableRowClassName"
+                  >
+                    <el-table-column label="Legend" prop="color" width="100px">
+                      <template slot-scope="scope">
+                        <div :style="markTask(scope.row.color)"></div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      label="Task"
+                      prop="description"
+                    ></el-table-column>
+                    <el-table-column label="Start">
+                      <template slot-scope="scope">
+                        {{ scope.row.start | humanDate }}
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="End">
+                      <template slot-scope="scope">
+                        {{ scope.row.end | humanDate }}
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </template>
+              </el-table-column>
+              <el-table-column label="Goal">
+                <template slot-scope="scope">
+                  <strong>{{ scope.row.description }}</strong>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
           <vc-calendar
             :attributes="dream.tasks"
             :columns="layout.columns"
@@ -84,20 +84,18 @@ export default {
       return this.$screens({
         // Default layout for mobile
         default: {
-          columns: 4,
-          rows: 1,
-          isExpanded: true
+          columns: 1,
+          rows: 3
         },
         // min-width 1024px
         lg: {
-          columns: 4,
-          rows: 1,
-          isExpanded: true
+          columns: 1,
+          rows: 3
         },
         // min-width 1280px
         xl: {
-          columns: 4,
-          rows: 1,
+          columns: 3,
+          rows: 3,
           isExpanded: true
         }
       });

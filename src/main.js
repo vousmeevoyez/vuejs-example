@@ -8,7 +8,6 @@ import elementLocale from "element-ui/lib/locale/lang/en";
 import "@/assets/css/element-variables.scss";
 // external
 import VueCookies from "vue-cookies";
-import Moment from "moment";
 
 // lodash
 import upperFirst from "lodash/upperFirst";
@@ -23,6 +22,7 @@ Vue.use(VueCookies);
 Vue.$cookies.config("30MIN");
 
 Vue.component("base-layout", Base);
+
 // component registration
 // using this technique we dont need to import comopnent inside components because it automatically imported
 const requireComponent = require.context(
@@ -57,18 +57,16 @@ requireComponent.keys().forEach(fileName => {
   );
 });
 
-Vue.config.productionTip = false;
-Vue.filter("humanDate", function(value) {
-  if (value) {
-    return Moment(value).format("MMMM Do YYYY");
-  }
+const filters = require.context("@/filters", true, /[A-Z]\w+\.(js|vue)$/i);
+filters.keys().forEach(key => {
+  const uri = key.substr(key.lastIndexOf("/") + 1, key.length);
+  let name = uri.substr(0, uri.indexOf("."));
+  name = name.replace(/([A-Z])/g, "-$1");
+  name = name.toLowerCase();
+  Vue.component(name, filters(key).default);
 });
 
-Vue.filter("humanHour", function(value) {
-  if (value) {
-    return Moment(value).format("HH:mm");
-  }
-});
+Vue.config.productionTip = false;
 
 new Vue({
   router,
