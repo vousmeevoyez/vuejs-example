@@ -23,7 +23,7 @@
           card_key="task"
           :data="card"
           :colors="cardCategories"
-          @deletion="deletion"
+          @deletion="handleDeleteCard"
         />
       </draggable>
     </el-card>
@@ -32,7 +32,7 @@
       :categoryOptions="categoryOptions"
       :loading="loading"
       :dialog.sync="showCreateCardDialog"
-      @submit="submit"
+      @submit="handleCreateCard"
       @close="handleCloseCard"
     />
   </el-col>
@@ -52,12 +52,41 @@ export default {
   },
   props: {
     title: String,
-    cardCategories: Object,
-    submit: Function,
-    deletion: Function
+    cardCategories: Object
   },
   methods: {
-    ...mapActions(["updateCards"]),
+    ...mapActions([
+      "createCard",
+      "deleteCard",
+      "updateCards",
+      "triggerSuccess",
+      "triggerError"
+    ]),
+    handleCreateCard(flag, cardInfo) {
+      this.loading = true;
+      cardInfo.status = flag;
+      this.createCard(cardInfo)
+        .then(data => {
+          this.loading = false;
+          this.triggerSuccess("Card successfully created");
+          this.showCreateCardDialog = false;
+          this.$emit("refresh");
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
+    },
+    handleDeleteCard({ id }) {
+      this.deleteCard(id)
+        .then(() => {
+          this.triggerSuccess("Card successfully removed");
+          this.showCreateCardDialog = false;
+          this.$emit("refresh");
+        })
+        .catch(({ error }) => {
+          this.triggerError(error);
+        });
+    },
     handleCloseCard() {
       this.showCreateCardDialog = false;
     }
@@ -68,16 +97,19 @@ export default {
     },
     cards: {
       get() {
+        // if there any hypens we remove it
+        let cleanedTitle = this.title.replace(/-/g, "");
         // add s
-        let card = this.title + "s";
+        let card = cleanedTitle + "s";
         // convert lowercase
         let lowerCaseCard = card.toLowerCase();
         return this.$store.getters[lowerCaseCard];
       },
       set(value) {
+        let cleanedTitle = this.title.replace(/-/g, "");
         this.updateCards({
           cards: value,
-          attribute: (this.title + "s").toUpperCase()
+          attribute: (cleanedTitle + "s").toUpperCase()
         }).then(data => {});
       }
     },

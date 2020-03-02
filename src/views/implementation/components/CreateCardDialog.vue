@@ -11,12 +11,7 @@
         :label-width="cardForm.width"
         prop="description"
       >
-        <el-input
-          type="textarea"
-          :rows="2"
-          placeholder="Please input"
-          v-model="cardForm.description"
-        >
+        <el-input type="textarea" :rows="2" v-model="cardForm.description">
         </el-input>
       </el-form-item>
       <el-form-item
@@ -112,7 +107,7 @@ export default {
       let flag = "";
       if (title.includes("Backlog")) {
         flag = "b";
-      } else if (title.includes("Todo")) {
+      } else if (title.includes("To-Do")) {
         flag = "t";
       } else if (title.includes("Doing")) {
         flag = "dg";

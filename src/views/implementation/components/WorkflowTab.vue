@@ -4,26 +4,22 @@
       <CardBoard
         title="Backlog"
         :cardCategories="categories"
-        :submit="handleCreateCard"
-        :deletion="handleDeleteCard"
+        @refresh="fetchData"
       />
       <CardBoard
-        title="Todo"
+        title="To-Do"
         :cardCategories="categories"
-        :submit="handleCreateCard"
-        :deletion="handleDeleteCard"
+        @refresh="fetchData"
       />
       <CardBoard
         title="Doing"
         :cardCategories="categories"
-        :submit="handleCreateCard"
-        :deletion="handleDeleteCard"
+        @refresh="fetchData"
       />
       <CardBoard
         title="Done"
         :cardCategories="categories"
-        :submit="handleCreateCard"
-        :deletion="handleDeleteCard"
+        @refresh="fetchData"
       />
     </el-row>
     <el-row style="display:flex; padding-top: 10px;">
@@ -54,14 +50,7 @@ export default {
     CardBoard
   },
   methods: {
-    ...mapActions([
-      "getUserCard",
-      "getUserRoadmap",
-      "createCard",
-      "deleteCard",
-      "triggerSuccess",
-      "triggerError"
-    ]),
+    ...mapActions(["getUserCard", "getUserRoadmap", "triggerError"]),
     fetchData() {
       const userId = this.$store.getters["userId"];
       this.getUserCard(userId)
@@ -85,29 +74,6 @@ export default {
         };
       }
       return result;
-    },
-    handleCreateCard(flag, cardInfo) {
-      this.loading = true;
-      cardInfo.status = flag;
-      this.createCard(cardInfo)
-        .then(data => {
-          this.loading = false;
-          this.triggerSuccess("Card successfully created");
-          this.fetchData();
-        })
-        .catch(({ error }) => {
-          this.triggerError(error);
-        });
-    },
-    handleDeleteCard(cardInfo) {
-      this.deleteCard(cardInfo.id)
-        .then(() => {
-          this.triggerSuccess("Card successfully removed");
-          this.fetchData();
-        })
-        .catch(({ error }) => {
-          this.triggerError(error);
-        });
     }
   },
   mounted() {
